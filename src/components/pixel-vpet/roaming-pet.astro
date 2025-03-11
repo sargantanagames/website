@@ -1,27 +1,26 @@
 <style>
     .creature {
         position: absolute;
-        width: 32px; /* Frame width */
-        height: 32px;
-        background: url('/roaming-pet.png') no-repeat;
-        background-size: 256px 32px; /* Adjust based on total sheet size */
+        width: 64px; /* Frame width */
+        height: 64px;
+        background: url('/images/pixel-vpet/roaming-pet.png') no-repeat;
+        background-size: 512px 64px; /* Adjust based on total sheet size */
         transition: transform 0.3s ease-out, left linear, top linear;
         left: 0;
         top: 0;
-        scale: 2;
     }
     @keyframes idle {
         0% { background-position-x: 0px; }
-        33.33% { background-position-x: -32px; }
-        66.66% { background-position-x: -64px; }
+        33.33% { background-position-x: -64px; }
+        66.66% { background-position-x: -128px; }
         100% { background-position-x: 0px; }
     }
     @keyframes walk {
-        0% { background-position-x: -96px; }
-        25% { background-position-x: -128px; }
-        50% { background-position-x: -160px; }
-        75% { background-position-x: -192px; }
-        100% { background-position-x: -224px; }
+        0% { background-position-x: -192px; }
+        25% { background-position-x: -256px; }
+        50% { background-position-x: -320px; }
+        75% { background-position-x: -384px; }
+        100% { background-position-x: -448px; }
     }
     .idle {
         animation: idle 1s steps(1) infinite;
