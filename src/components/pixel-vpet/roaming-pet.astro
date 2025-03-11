@@ -38,7 +38,7 @@
 <script>
     const creature = document.getElementById('creature');
     const container = creature.parentElement;
-    const speed = 50; // Pixels per second
+    const speed = 75; // Pixels per second
 
     function getRandomTime(min, max) {
         return Math.random() * (max - min) + min;
@@ -87,7 +87,7 @@
         setTimeout(() => {
             const target = getRandomPosition();
             moveTo(target.x, target.y);
-        }, getRandomTime(3000, 5000));
+        }, getRandomTime(1000, 2000));
     }
 
     // Ensure proper positioning on first animation
