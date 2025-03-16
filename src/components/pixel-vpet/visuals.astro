@@ -58,6 +58,12 @@ const images = [
         dots.forEach((dot, i) => {
             dot.classList.toggle('!bg-primary-pixelvpet', i === index);
             dot.classList.toggle('rotate-[-45deg]', i === index);
+
+            if (i === index) {
+                dot.classList.remove('hover:rotate-45');
+            } else {
+                dot.classList.add('hover:rotate-45');
+            }
         });
         currentIndex = index;
         stopCarousel()
