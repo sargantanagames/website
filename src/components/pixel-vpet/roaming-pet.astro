@@ -115,21 +115,22 @@
 
         offsetX = clientX - rect.left;
         offsetY = clientY - rect.top;
+
+        teleportTo(event)
     }
 
     function onDrag(event) {
         if (!isDragging) return;
         event.preventDefault();
+        teleportTo(event);
+    }
 
+    function teleportTo(event) {
         let clientX = (event.clientX || event.touches[0].clientX) + window.scrollX * 2;
         let clientY = (event.clientY || event.touches[0].clientY) + window.scrollY * 2;
 
         let x = clientX - offsetX;
         let y = clientY - offsetY;
-
-        // Ensure the pet stays within the bounds
-        x = Math.max(0, Math.min(container.clientWidth - creature.clientWidth, x));
-        y = Math.max(0, Math.min(container.clientHeight - creature.clientHeight, y));
 
         creature.style.left = `${x}px`;
         creature.style.top = `${y}px`;
