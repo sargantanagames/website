@@ -2,7 +2,6 @@
 const spriteSheets = import.meta.glob('/src/assets/images/pixel-vpet/idlers/*.png', { eager: true });
 
 const idlerImages = Object.values(spriteSheets).map((img) => img.default);
-console.log(idlerImages);
 ---
 <style>
     .idler {
