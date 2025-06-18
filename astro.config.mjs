@@ -10,10 +10,5 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
-  redirects: {
-    "/": "/pixel-vpet",
-  },
-
   integrations: [icon()],
 });

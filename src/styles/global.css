@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-pixelvpet: #4ecdc4;
+  --color-primary-pixelvpet: #4dd7cd;
   --color-primary-dark-pixelvpet: #3dbdb4;
   --color-primary-darkest-pixelvpet: #2b444f;
-  --color-secondary-pixelvpet: #ffd167;
+  --color-secondary-pixelvpet: #ffd160;
   --color-white: #eee;
   --color-black: #111;
   --font-normal: "Open Sans", sans-serif;
