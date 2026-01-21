@@ -15,3 +15,28 @@
 * {
 	font-family: 'Jersey 10', sans-serif;
 }
+
+.underline-center {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.underline-center::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+
+    width: 70%;
+    height: 2px;
+
+    background-color: currentColor;
+
+    transform: translateX(-50%);
+    transition: width 180ms ease-out;
+}
+
+.underline-center:hover::after {
+    width: 100%;
+}

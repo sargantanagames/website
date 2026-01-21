@@ -17,9 +17,9 @@ import { LINKS } from "$lib/config/links.ts";
       href={LINKS.vpetlings.steam}
       target="_blank"
       rel="noopener noreferrer"
-      class="underline-center"
+      class="underline-center text-accent-darker"
     >
-      <span class="text-accent-darker">Wishlist on Steam</span>
+      Wishlist on Steam
     </a>
     to follow development and support the project.
   </p>
@@ -38,11 +38,11 @@ import { LINKS } from "$lib/config/links.ts";
     ></iframe>
   </div>
 
-  <p class="pt-2 text-sm opacity-70">
+  <p class="pt-2 text-sm">
     Want to learn more about us?
     <a
       href="/vpetlings/about-us"
-      class="underline underline-offset-2 hover:opacity-80"
+      class="text-accent-darker underline-center"
     >
       Read about the "studio"
     </a>.
@@ -83,30 +83,4 @@ import { LINKS } from "$lib/config/links.ts";
             animation: none;
         }
     }
-
-    .underline-center {
-        position: relative;
-        display: inline-block;
-        text-decoration: none;
-    }
-
-    .underline-center::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        bottom: 4px;
-
-        width: 0;
-        height: 2px;
-
-        background-color: var(--color-accent-darker);
-
-        transform: translateX(-50%);
-        transition: width 180ms ease-out;
-    }
-
-    .underline-center:hover::after {
-        width: 100%;
-    }
-
 </style>

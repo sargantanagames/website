@@ -23,14 +23,14 @@
 		<div class="hidden items-center gap-6 text-2xl md:flex">
 			<a
 				href="/vpetlings/about-us"
-				class="opacity-90 transition-opacity ease-out hover:opacity-100"
+				class="opacity-90 transition-opacity ease-out hover:opacity-100 underline-center"
 			>
 				About Us
 			</a>
 
 			<a
 				href="/vpetlings/press-kit"
-				class="opacity-90 transition-opacity ease-out hover:opacity-100"
+				class="opacity-90 transition-opacity ease-out hover:opacity-100 underline-center"
 			>
 				Press Kit
 			</a>
