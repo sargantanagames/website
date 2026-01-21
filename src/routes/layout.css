@@ -8,11 +8,8 @@
 	--color-text: #3b2f29;
 	--color-accent: #ffe6ad;
 	--color-accent-dark: #fba574;
+    --color-accent-darker: #db624d;
 	--color-secondary: #2f3f51;
-}
-
-.pixelated {
-	image-rendering: pixelated;
 }
 
 * {

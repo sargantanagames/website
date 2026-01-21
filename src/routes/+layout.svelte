@@ -9,7 +9,7 @@
 
 <svelte:head>
 	<!-- Primary Meta -->
-	<title>VPetlings</title>
+	<title>VPetlings · Wishlist on Steam</title>
 	<meta
 		name="description"
 		content="Wishlist now! Raise a cozy virtual pet that lives on your desktop. Hatch, care for, evolve, and battle your companion while you work, play, or browse."

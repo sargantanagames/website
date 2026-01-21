@@ -4,8 +4,8 @@
 	import lavaArea from '$lib/assets/lava-area.png';
 </script>
 
-<section class="max-w-96 space-y-12 md:max-w-3xl">
-	<div class="rounded border-2 border-text bg-accent p-2">
+<section class="max-w-96 space-y-12 md:max-w-3xl m-4">
+	<div class="rounded border-2 border-text bg-accent p-4">
 		<div class="flex flex-col items-center gap-2 md:flex-row">
 			<img
 				src={eggAnimation}
@@ -14,16 +14,17 @@
 			/>
 
 			<div class="text-center md:text-left">
-				<h3 class="mb-2 text-xl">Hatch your egg</h3>
-				<p>
-					Hatch your egg and meet a tiny companion that lives on your desktop, always nearby as you
-					go about your day
-				</p>
+				<h3 class="mb-2 text-2xl">Choose your own</h3>
+        <p class="text-lg">
+          Hatch your egg and meet a tiny companion that
+          <span class="text-accent-darker">lives on your desktop</span>,
+          always nearby as you go about your day.
+        </p>
 			</div>
 		</div>
 	</div>
 
-	<div class="rounded border-2 border-text bg-accent p-2">
+	<div class="rounded border-2 border-text bg-accent p-4">
 		<div class="flex flex-col items-center gap-2 md:flex-row-reverse">
 			<img
 				src={pinkRoom}
@@ -32,25 +33,28 @@
 			/>
 
 			<div class="text-center md:text-left">
-				<h3 class="mb-2 text-xl">Customize their room</h3>
-				<p class="opacity-80">
-					Decorate your pet’s room with furniture you can purchase and unlock, shaping a space that
-					fits your desktop and your companion’s personality
-				</p>
+				<h3 class="mb-2 text-2xl">Customize their room</h3>
+        <p class="text-lg">
+          Decorate your pet’s room with
+          <span class="text-accent-darker">furniture you can purchase and unlock</span>,
+          shaping a space that fits your desktop and your companion’s personality.
+        </p>
 			</div>
 		</div>
 	</div>
 
-	<div class="rounded border-2 border-text bg-accent p-2">
+	<div class="rounded border-2 border-text bg-accent p-4">
 		<div class="flex flex-col items-center gap-2 md:flex-row">
 			<img src={lavaArea} alt="Lava themed adventure area" class="h-20 rounded object-cover p-2" />
 
 			<div class="text-center md:text-left">
-				<h3 class="mb-2 text-xl">Explore new zones</h3>
-				<p class="opacity-80">
-					Send your pet on small adventures, explore new areas, and take part in casual,
-					timing-based battles
-				</p>
+				<h3 class="mb-2 text-2xl">Explore new zones</h3>
+        <p class="text-lg">
+          Send your pet on
+          <span class="text-accent-darker">small adventures</span>,
+          explore new areas, and take part in casual,
+          <span class="text-accent-darker">timing-based battles</span>.
+        </p>
 			</div>
 		</div>
 	</div>

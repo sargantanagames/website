@@ -42,10 +42,10 @@
   <img
     src={images[index]}
     alt="VPetlings gameplay screenshot"
-    class="mx-auto h-full  w-full border-2 border-text rounded bg-bg object-contain"
+    class="mx-auto h-full w-full border-2 border-text rounded bg-bg object-contain"
   />
 
-  <div class="mt-4 flex justify-center gap-2">
+  <div class="mt-4 flex justify-center gap-2 w-full">
     {#each images as _, i}
       <button
         aria-label={`Select image ${i + 1}`}

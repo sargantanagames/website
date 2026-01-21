@@ -17,12 +17,13 @@
         border-text bg-accent
         px-3
         py-1
-        text-sm whitespace-nowrap
-        sm:text-base
+        text-base whitespace-nowrap
+        sm:text-xl
       "
 		>
-			A virtual pet that lives on your desktop
-		</p>
+			A virtual pet that <span class="text-accent-darker">lives on your desktop</span>
+
+    </p>
 
 		<!-- Placeholder (future GIF) -->
 		<div
