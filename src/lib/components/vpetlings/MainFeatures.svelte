@@ -14,9 +14,9 @@
       class="h-full max-h-28 object-contain md:h-full md:w-auto"
     />
 
-    <div class="rounded border-2 border-text bg-accent py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-2xl">Choose your own</h3>
-      <p class="text-lg">
+    <div class="rounded  py-1 px-2 md:text-left text-center">
+      <h3 class="mb-2 text-3xl">Choose your own</h3>
+      <p class="text-xl">
         Hatch your egg and meet a tiny companion that
         <span class="text-accent-darker"> lives on your desktop</span>,
         always nearby as you go about your day.
@@ -32,9 +32,9 @@
       class="h-full max-h-28 object-contain md:w-auto"
     />
 
-    <div class="rounded border-2 border-text bg-accent py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-2xl">Customize their room</h3>
-      <p class="text-lg">
+    <div class="rounded  py-1 px-2 md:text-left text-center">
+      <h3 class="mb-2 text-3xl">Customize their room</h3>
+      <p class="text-xl">
         Decorate your pet’s room with
         <span class="text-accent-darker"> furniture you can purchase and unlock</span>,
         shaping a space that fits your desktop and your companion’s personality.
@@ -50,9 +50,9 @@
       class="h-full max-h-16 rounded object-contain md:w-auto"
     />
 
-    <div class="rounded border-2 border-text bg-accent py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-2xl">Explore new zones</h3>
-      <p class="text-lg">
+    <div class="rounded py-1 px-2 md:text-left text-center">
+      <h3 class="mb-2 text-3xl">Explore new zones</h3>
+      <p class="text-xl">
         Send your pet on
         <span class="text-accent-darker"> small adventures</span>,
         explore new areas, and take part in casual,
