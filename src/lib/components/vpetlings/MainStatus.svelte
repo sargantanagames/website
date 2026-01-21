@@ -38,7 +38,7 @@ import { LINKS } from "$lib/config/links.ts";
     ></iframe>
   </div>
 
-  <p class="pt-2 text-sm">
+  <p class="pt-2 text-base">
     Want to learn more about us?
     <a
       href="/vpetlings/about-us"

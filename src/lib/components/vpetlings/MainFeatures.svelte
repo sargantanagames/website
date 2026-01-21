@@ -4,7 +4,7 @@
   import lavaArea from '$lib/assets/lava-area.png';
 </script>
 
-<section class="m-4 w-full max-w-96 space-y-16 md:mx-auto md:max-w-2xl">
+<section class="m-4 w-full max-w-96 space-y-16 md:mx-auto md:max-w-4xl">
 
   <!-- Feature 1 -->
   <div class="flex flex-col items-center gap-4 md:flex-row md:h-28">

@@ -4,12 +4,12 @@
 
 <footer class="footer-dither w-full text-bg">
   <div class="mx-auto max-w-5xl p-2">
-    <div class="flex flex-col items-center gap-2 text-center">
+    <div class="flex flex-col items-center gap-0.5 text-center">
       <p>
         SargantanaGames © {new Date().getFullYear()}
       </p>
 
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-12">
         <a
           href={LINKS.vpetlings.steam}
           target="_blank"
