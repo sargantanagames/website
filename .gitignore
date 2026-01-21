@@ -40,3 +40,6 @@ vite.config.ts.timestamp-*
 # Ignore all local history of files
 .history
 .ionide
+
+
+.idea

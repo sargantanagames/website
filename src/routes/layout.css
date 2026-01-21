@@ -1,1 +1,20 @@
-@import 'tailwindcss';
+/* Fixes base being applied last */
+@import 'tailwindcss/theme'; /* variables */
+@import 'tailwindcss/preflight'; /* base/reset */
+@import 'tailwindcss/utilities'; /* components + utilities */
+
+@theme {
+    --color-bg: #ffffee;
+    --color-text: #3b2f29;
+    --color-accent: #ffe6ad;
+    --color-accent-dark: #fba574;
+    --color-secondary: #2f3f51;
+}
+
+.pixelated {
+    image-rendering: pixelated;
+}
+
+* {
+    font-family: "Jersey 10", sans-serif;
+}
