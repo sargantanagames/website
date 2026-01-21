@@ -15,9 +15,9 @@
           target="_blank"
           rel="noopener noreferrer"
           class="
-      opacity-80 transition-all ease-out
-      hover:text-gray-500 hover:opacity-100
-    "
+            opacity-80 transition-all ease-out
+            hover:text-gray-500 hover:opacity-100
+          "
         >
           Steam
         </a>
@@ -27,9 +27,9 @@
           target="_blank"
           rel="noopener noreferrer"
           class="
-      opacity-80 transition-all ease-out
-      hover:text-cyan-400 hover:opacity-100
-    "
+            opacity-80 transition-all ease-out
+            hover:text-cyan-400 hover:opacity-100
+          "
         >
           Twitter
         </a>
@@ -39,13 +39,23 @@
           target="_blank"
           rel="noopener noreferrer"
           class="
-      opacity-80 transition-all ease-out
-      hover:text-pink-400 hover:opacity-100
-    "
+            opacity-80 transition-all ease-out
+            hover:text-pink-400 hover:opacity-100
+          "
         >
           Instagram
         </a>
       </div>
+
+      <a
+        href="mailto:contact@sargantanagames.com"
+        class="
+            opacity-80 transition-all ease-out
+            hover:text-red-400 hover:opacity-100
+          "
+      >
+        contact@sargantanagames.com
+      </a>
     </div>
   </div>
 </footer>
