@@ -1,9 +1,9 @@
 <script lang="ts">
 	import vpetlingsLogo from '$lib/assets/vpetlings-logo.png';
+  import Pet from "$lib/components/vpetlings/Pet.svelte";
 </script>
 
 <section class="text-center">
-	<!-- Logo -->
 	<div class="flex justify-center">
 		<img src={vpetlingsLogo} alt="VPetlings" class="logo-bob h-24 object-contain md:h-28" />
 	</div>
@@ -25,16 +25,11 @@
 
     </p>
 
-		<!-- Placeholder (future GIF) -->
-		<div
-			class="
-        h-full w-full
-        rounded border-2 border-text
-        bg-black/20
-      "
-			aria-hidden="true"
-		/>
-	</div>
+    <div
+      class="h-full w-full rounded border-2 border-text bg-black/20"
+    >
+      <Pet />
+    </div>
 </section>
 
 <style>
