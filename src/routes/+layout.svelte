@@ -38,7 +38,7 @@
 	<meta name="twitter:image" content="/og-image.png" />
 </svelte:head>
 
-<div class="flex h-full min-h-screen flex-col bg-bg text-text">
+<div class="flex h-full min-h-screen flex-col bg-bg text-text bg-pattern">
 	<Navbar />
 
 	<main class="mx-auto w-full max-w-6xl flex-1 p-2 text-xl">
@@ -47,3 +47,25 @@
 
 	<Footer />
 </div>
+
+
+<style>
+    .bg-pattern {
+        position: relative;
+        z-index: 1;
+    }
+
+    .bg-pattern::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .2;
+        z-index: -1;
+        background-image: url('/src/lib/assets/background.png');
+        background-repeat: repeat;
+        background-size: 1024px 1024px;
+    }
+</style>
