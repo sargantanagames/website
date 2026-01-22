@@ -2,8 +2,7 @@
 import { LINKS } from "$lib/config/links.ts";
 </script>
 
-<section class="mx-auto max-w-2xl text-center space-y-4">
-  <!-- Animated status line -->
+<section class="text-center space-y-4">
   <div class="flex justify-center items-end text-3xl">
     <span>In development</span>
     <span class="build-dots">
@@ -25,20 +24,17 @@ import { LINKS } from "$lib/config/links.ts";
   </p>
 
 
-  <!-- Steam widget -->
-  <div class="flex justify-center">
-    <iframe
-      src="https://store.steampowered.com/widget/3799160/?t=Wishlist%20on%20Steam!"
-      frameborder="0"
-      width="646"
-      height="190"
-      loading="lazy"
-      title="VPetlings Steam widget"
-      class="max-w-full rounded"
-    ></iframe>
-  </div>
+  <iframe
+    src="https://store.steampowered.com/widget/3799160/?t=Wishlist%20on%20Steam!"
+    frameborder="0"
+    width="646"
+    height="190"
+    loading="lazy"
+    title="VPetlings Steam widget"
+    class="mx-auto rounded"
+  ></iframe>
 
-  <p class="pt-2 text-base">
+  <p class="text-base">
     Want to learn more about us?
     <a
       href="/vpetlings/about-us"

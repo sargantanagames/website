@@ -5,7 +5,7 @@
 	import MainStatus from '$lib/components/vpetlings/MainStatus.svelte';
 </script>
 
-<div class="my-12 flex flex-col items-center gap-32 text-base">
+<div class="my-12 flex flex-col items-center gap-24 text-base">
 	<MainHero />
 	<MainFeatures />
 	<MainVisuals />

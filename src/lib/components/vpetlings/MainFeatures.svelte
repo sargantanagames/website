@@ -1,64 +1,102 @@
 <script lang="ts">
-  import eggAnimation from '$lib/assets/egg-animation.gif';
-  import pinkRoom from '$lib/assets/pink-room.gif';
-  import lavaArea from '$lib/assets/lava-area.png';
+  import imageFeature1 from "$lib/assets/vpetlings/features/features-1.webp";
+  import imageFeature2 from "$lib/assets/vpetlings/features/features-2.apng";
+  import imageFeature3 from "$lib/assets/vpetlings/features/features-3.webp";
+  import imageFeature4 from "$lib/assets/vpetlings/features/features-4.apng";
+  import imageFeature5 from "$lib/assets/vpetlings/features/features-5.webp";
+  import imageFeature6 from "$lib/assets/vpetlings/features/features-6.apng";
+  import imageFeature7 from "$lib/assets/vpetlings/features/features-7.webp";
+  import imageFeature8 from "$lib/assets/vpetlings/features/features-8.avif";
 </script>
 
-<section class="m-4 w-full max-w-96 space-y-16 md:mx-auto md:max-w-4xl">
+<section class="space-y-4 md:space-y-8 text-base md:text-xl text-center">
+  <p>
+    Discover <span class="text-accent-darker">VPetlings</span> and meet your tiny
+    virtual buddy living happily <span class="text-accent-darker">on your desktop</span>. Hatch your little companion,
+    and they’ll always be nearby as you go about your day.
+  </p>
 
-  <!-- Feature 1 -->
-  <div class="flex flex-col items-center gap-4 md:flex-row md:h-28">
-    <img
-      src={eggAnimation}
-      alt="Egg wobbling animation"
-      class="h-full max-h-28 object-contain md:h-full md:w-auto"
-    />
+  <img
+    src={imageFeature1}
+    alt="Lots of little behaviors"
+    class="max-w-full rounded object-contain"
+  />
 
-    <div class="rounded  py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-3xl">Choose your own</h3>
-      <p class="text-xl">
-        Hatch your egg and meet a tiny companion that
-        <span class="text-accent-darker"> lives on your desktop</span>,
-        always nearby as you go about your day.
-      </p>
-    </div>
-  </div>
+  <p>
+    They wander, nap, chase and interact with your cursor, play fetch, get moody,
+    and sometimes just vibe. If you need to focus on other tasks, you can send
+    them to <span class="text-accent-darker">rest in their little room</span>.
+  </p>
 
-  <!-- Feature 2 -->
-  <div class="flex flex-col items-center gap-4 md:flex-row-reverse md:h-28">
-    <img
-      src={pinkRoom}
-      alt="Pink themed pet room"
-      class="h-full max-h-28 object-contain md:w-auto"
-    />
+  <img
+    src={imageFeature2}
+    alt="Pet animations"
+    class="max-w-full rounded object-contain"
+  />
 
-    <div class="rounded  py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-3xl">Customize their room</h3>
-      <p class="text-xl">
-        Decorate your pet’s room with
-        <span class="text-accent-darker"> furniture you can purchase and unlock</span>,
-        shaping a space that fits your desktop and your companion’s personality.
-      </p>
-    </div>
-  </div>
+  <img
+    src={imageFeature3}
+    alt="Make it yours"
+    class="max-w-full rounded object-contain"
+  />
 
-  <!-- Feature 3 -->
-  <div class="flex flex-col items-center gap-4 md:flex-row md:h-28">
-    <img
-      src={lavaArea}
-      alt="Lava themed adventure area"
-      class="h-full max-h-16 rounded object-contain md:w-auto"
-    />
+  <p>
+    Decorate their room with furniture and unlock
+    <span class="text-accent-darker">unique color variants</span> to fit your
+    desktop style.
+  </p>
 
-    <div class="rounded py-1 px-2 md:text-left text-center">
-      <h3 class="mb-2 text-3xl">Explore new zones</h3>
-      <p class="text-xl">
-        Send your pet on
-        <span class="text-accent-darker"> small adventures</span>,
-        explore new areas, and take part in casual,
-        <span class="text-accent-darker"> timing-based battles</span>.
-      </p>
-    </div>
-  </div>
+  <img
+    src={imageFeature4}
+    alt="Rooms"
+    class="max-w-full rounded object-contain"
+  />
+
+  <p>
+    Each pet has different personalities, stat bonuses, and follows a
+    <span class="text-accent-darker">real-time sleep schedule</span>.
+  </p>
+
+  <img
+    src={imageFeature5}
+    alt="Discover new VPets"
+    class="max-w-full rounded object-contain"
+  />
+
+  <p>
+    Your pet will evolve as they gain experience over time. When their time’s up,
+    they can be reborn into a
+    <span class="text-accent-darker">new egg</span>, giving your next companion a
+    head start.
+  </p>
+
+  <img
+    src={imageFeature6}
+    alt="Eggs and stage animations"
+    class="max-w-full rounded object-contain"
+  />
+
+  <p>
+    Complete the glossary and discover
+    <span class="text-accent-darker">new creatures</span> that await.
+  </p>
+
+  <img
+    src={imageFeature7}
+    alt="Train and battle"
+    class="max-w-full rounded object-contain"
+  />
+
+  <p>
+    Train your pet for battle, explore small worlds, and take part in
+    <span class="text-accent-darker">casual, timing-based battles</span> to earn
+    coins and unlock new items.
+  </p>
+
+  <img
+    src={imageFeature8}
+    alt="Combat menus"
+    class="max-w-full rounded object-contain"
+  />
 
 </section>
