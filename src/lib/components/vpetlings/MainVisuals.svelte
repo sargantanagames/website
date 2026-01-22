@@ -38,7 +38,7 @@
   });
 </script>
 
-<section class="w-full p-16">
+<section class="w-full">
   <img
     src={images[index]}
     alt="VPetlings gameplay screenshot"

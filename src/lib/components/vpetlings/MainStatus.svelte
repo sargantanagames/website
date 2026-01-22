@@ -23,16 +23,17 @@ import { LINKS } from "$lib/config/links.ts";
     to follow development and support the project.
   </p>
 
-
-  <iframe
-    src="https://store.steampowered.com/widget/3799160/?t=Wishlist%20on%20Steam!"
-    frameborder="0"
-    width="646"
-    height="190"
-    loading="lazy"
-    title="VPetlings Steam widget"
-    class="mx-auto rounded"
-  ></iframe>
+  <div>
+      <iframe
+        src="https://store.steampowered.com/widget/3799160/?t=Wishlist%20on%20Steam!"
+        frameborder="0"
+        width="646"
+        height="190"
+        loading="lazy"
+        title="VPetlings Steam widget"
+        class="max-w-full mx-auto rounded"
+      />
+    </div>
 
   <p class="text-base">
     Want to learn more about us?

@@ -7,15 +7,12 @@
   import imageFeature6 from "$lib/assets/vpetlings/features/features-6.apng";
   import imageFeature7 from "$lib/assets/vpetlings/features/features-7.webp";
   import imageFeature8 from "$lib/assets/vpetlings/features/features-8.avif";
+
+  import Pet from './Pet.svelte';
+  let featureImage: HTMLImageElement;
 </script>
 
 <section class="space-y-4 md:space-y-8 text-base md:text-xl text-center">
-  <p>
-    Discover <span class="text-accent-darker">VPetlings</span> and meet your tiny
-    virtual buddy living happily <span class="text-accent-darker">on your desktop</span>. Hatch your little companion,
-    and they’ll always be nearby as you go about your day.
-  </p>
-
   <img
     src={imageFeature1}
     alt="Lots of little behaviors"
@@ -29,10 +26,12 @@
   </p>
 
   <img
+    bind:this={featureImage}
     src={imageFeature2}
     alt="Pet animations"
     class="max-w-full rounded object-contain"
   />
+
 
   <img
     src={imageFeature3}
