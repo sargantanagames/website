@@ -169,7 +169,6 @@
     const waitForAnchor = () => {
       if (container && featureImage) {
         spawnFromImage(SPAWN_X, SPAWN_Y);
-        updateContainerHeight();
 
         const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
 
@@ -186,6 +185,7 @@
 
                 reparentToWorld();
                 spawnFromImage(SPAWN_X, SPAWN_Y);
+                updateContainerHeight();
               };
 
               revealEl.addEventListener('transitionend', onDone, { once: true });

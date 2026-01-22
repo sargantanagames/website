@@ -39,7 +39,7 @@
       </div>
 
       <p class="mt-6 text-xl">
-        <span class="text-accent-darker">Programmning & Game Design.</span>
+        <span class="text-accent-darker">Programming & Game Design.</span>
         Software developer by day, game developer by passion.
         Takes care of the code, systems, website, and
         <span class="text-accent-darker">everything that makes the game work</span>.
