@@ -145,7 +145,7 @@
   }
 
   function updateContainerHeight() {
-    if (!container) return;
+    if (!container || !isActive) return;
 
     container.style.height = '0px';
     container.style.height = `${document.body.scrollHeight}px`;
@@ -156,19 +156,39 @@
     updateContainerHeight();
   }
 
+  function reparentToWorld() {
+    if (!container) return;
+
+    const world = container.parentElement?.parentElement;
+    if (!world) return;
+
+    world.appendChild(container);
+  }
+
   onMount(() => {
-    // Wait until both container + featureImage exist
     const waitForAnchor = () => {
       if (container && featureImage) {
-        console.log('Both container and featureImage found, initializing pet.');
         spawnFromImage(SPAWN_X, SPAWN_Y);
         updateContainerHeight();
 
+        const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
+
         const observer = new IntersectionObserver(
           ([entry]) => {
-            if (entry.isIntersecting && !isActive) {
-              isActive = true;
-              lastTime = performance.now();
+            if (entry.isIntersecting && !isActive && revealEl) {
+              const onDone = (e: TransitionEvent) => {
+                if (e.target !== revealEl) return;
+
+                revealEl.removeEventListener('transitionend', onDone);
+
+                isActive = true;
+                lastTime = performance.now();
+
+                reparentToWorld();
+                spawnFromImage(SPAWN_X, SPAWN_Y);
+              };
+
+              revealEl.addEventListener('transitionend', onDone, { once: true });
             }
           },
           { threshold: 1 }
@@ -194,6 +214,7 @@
 
     waitForAnchor();
   });
+
 </script>
 
 <div

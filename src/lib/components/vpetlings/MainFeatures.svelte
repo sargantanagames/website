@@ -49,7 +49,7 @@
 
   <div
     use:inView
-    class="reveal from-right relative inline-block z-50"
+    class="reveal from-right inline-block z-50"
   >
     <img
       bind:this={featureImage}
@@ -137,7 +137,7 @@
     .reveal {
         opacity: 0;
         transition:
-                opacity 800ms ease,
+                opacity 1000ms ease,
                 transform 800ms ease;
         will-change: opacity, transform;
     }
