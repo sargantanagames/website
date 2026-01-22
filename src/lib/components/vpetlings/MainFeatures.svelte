@@ -10,7 +10,7 @@
 
   import Pet from "./Pet.svelte";
 
-  let featureImage: HTMLImageElement;
+  let featureImage: HTMLImageElement | null = null;
 
   function inView(node: HTMLElement) {
     const observer = new IntersectionObserver(
@@ -38,7 +38,7 @@
     use:inView
     src={imageFeature1}
     alt="Lots of little behaviors"
-    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain "
+    class="reveal from-right from-left max-w-full md:max-w-2/3 mx-auto object-contain is-visible"
   />
 
   <p>
@@ -47,20 +47,25 @@
     them to <span class="text-accent-darker">rest in their little room</span>.
   </p>
 
-  <img
+  <div
     use:inView
-    bind:this={featureImage}
-    src={imageFeature2}
-    alt="Pet animations"
-    class="reveal max-w-full rounded object-contain is-visible"
-  />
+    class="reveal from-right relative inline-block z-50"
+  >
+    <img
+      bind:this={featureImage}
+      src={imageFeature2}
+      alt="Pet animations"
+      class="block max-w-full rounded object-contain"
+    />
 
+    <Pet featureImage={featureImage} />
+  </div>
 
   <img
     use:inView
     src={imageFeature3}
     alt="Make it yours"
-    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal from-left max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -73,7 +78,7 @@
     use:inView
     src={imageFeature4}
     alt="Rooms"
-    class="reveal max-w-full rounded object-contain"
+    class="reveal from-right max-w-full rounded object-contain"
   />
 
   <p>
@@ -85,7 +90,7 @@
     use:inView
     src={imageFeature5}
     alt="Discover new VPets"
-    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal from-left max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -99,7 +104,7 @@
     use:inView
     src={imageFeature6}
     alt="Eggs and stage animations"
-    class="reveal max-w-full rounded object-contain"
+    class="reveal from-right max-w-full rounded object-contain"
   />
 
   <p>
@@ -111,7 +116,7 @@
     use:inView
     src={imageFeature7}
     alt="Train and battle"
-    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal from-left max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -124,22 +129,31 @@
     use:inView
     src={imageFeature8}
     alt="Combat menus"
-    class="reveal max-w-full rounded object-contain"
+    class="reveal from-right max-w-full rounded object-contain"
   />
 </section>
 
 <style>
     .reveal {
         opacity: 0;
-        transform: translateY(32px);
         transition:
-                opacity 600ms ease,
-                transform 600ms ease;
+                opacity 800ms ease,
+                transform 800ms ease;
         will-change: opacity, transform;
+    }
+
+    .reveal.from-left {
+        transform: translateX(-128px);
+    }
+
+    .reveal.from-right {
+        transform: translateX(128px);
     }
 
     .reveal.is-visible {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
     }
+
+
 </style>

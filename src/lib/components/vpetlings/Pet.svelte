@@ -4,7 +4,8 @@
   import idleGif from '$lib/assets/vpet-idle.gif';
   import walkGif from '$lib/assets/vpet-walk.gif';
 
-  export let featureImage: HTMLImageElement;
+  // ⬇️ MUST be nullable
+  export let featureImage: HTMLImageElement | null = null;
 
   const BASE_SPEED = 0.0003;
   const IDLE_DURATION = 1000;
@@ -14,7 +15,7 @@
   const SPAWN_X = 0.09;
   const SPAWN_Y = 0.48;
 
-  let container: HTMLDivElement;
+  let container: HTMLDivElement | null = null;
   let raf: number;
 
   let x = -10000;
@@ -40,6 +41,8 @@
   }
 
   function spawnFromImage(nx: number, ny: number) {
+    if (!featureImage || !container) return;
+
     const imageRect = featureImage.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
 
@@ -53,6 +56,8 @@
   }
 
   function isMouseNear() {
+    if (!container) return false;
+
     const rect = container.getBoundingClientRect();
     const petScreenX = rect.left + x;
     const petScreenY = rect.top + y;
@@ -61,6 +66,8 @@
   }
 
   function pickTarget() {
+    if (!container) return;
+
     const rect = container.getBoundingClientRect();
 
     if (rect.width === 0 || rect.height === 0) {
@@ -73,11 +80,9 @@
     const maxX = rect.width - petSize / 2;
     const maxY = rect.height - petSize / 2;
 
-    // Fallback: center of screen if mouse hasn't moved yet
     const originX = mouseX || rect.left + rect.width / 2;
     const originY = mouseY || rect.top + rect.height / 2;
 
-    // Pick a random point within a radius around the mouse
     const radius = MOUSE_IDLE_RADIUS;
     const angle = Math.random() * Math.PI * 2;
     const distance = Math.random() * radius;
@@ -85,7 +90,6 @@
     let tx = originX + Math.cos(angle) * distance - rect.left;
     let ty = originY + Math.sin(angle) * distance - rect.top;
 
-    // HARD CLAMP to window bounds
     tx = Math.min(maxX, Math.max(minX, tx));
     ty = Math.min(maxY, Math.max(minY, ty));
 
@@ -95,12 +99,10 @@
     state = 'walk';
   }
 
-
   function loop(time: number) {
-    if (!isActive) {
-      raf = requestAnimationFrame(loop);
-      return;
-    }
+    raf = requestAnimationFrame(loop);
+
+    if (!isActive || !container) return;
 
     const dt = time - lastTime;
     lastTime = time;
@@ -140,50 +142,58 @@
         y += (dy / dist) * speed * dt;
       }
     }
+  }
 
-    raf = requestAnimationFrame(loop);
+  function updateContainerHeight() {
+    if (!container) return;
+
+    container.style.height = '0px';
+    container.style.height = `${document.body.scrollHeight}px`;
   }
 
   function handleResize() {
     spawnFromImage(SPAWN_X, SPAWN_Y);
-    updateContainerHeight()
+    updateContainerHeight();
   }
 
   onMount(() => {
-    spawnFromImage(SPAWN_X, SPAWN_Y);
+    // Wait until both container + featureImage exist
+    const waitForAnchor = () => {
+      if (container && featureImage) {
+        console.log('Both container and featureImage found, initializing pet.');
+        spawnFromImage(SPAWN_X, SPAWN_Y);
+        updateContainerHeight();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !isActive) {
-          isActive = true;
-          lastTime = performance.now();
-        }
-      },
-      { threshold: 1 }
-    );
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting && !isActive) {
+              isActive = true;
+              lastTime = performance.now();
+            }
+          },
+          { threshold: 1 }
+        );
 
-    observer.observe(featureImage);
-    updateContainerHeight();
-    window.addEventListener('pointermove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
+        observer.observe(featureImage);
 
-    const rect = container.getBoundingClientRect();
+        window.addEventListener('pointermove', handleMouseMove);
+        window.addEventListener('resize', handleResize);
 
-    raf = requestAnimationFrame(loop);
+        raf = requestAnimationFrame(loop);
 
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(raf);
+        return () => {
+          observer.disconnect();
+          window.removeEventListener('pointermove', handleMouseMove);
+          window.removeEventListener('resize', handleResize);
+          cancelAnimationFrame(raf);
+        };
+      }
+
+      requestAnimationFrame(waitForAnchor);
     };
+
+    waitForAnchor();
   });
-
-  function updateContainerHeight() {
-    container.style.height = "0px";
-    container.style.height = `${document.body.scrollHeight}px`;
-  }
-
 </script>
 
 <div
