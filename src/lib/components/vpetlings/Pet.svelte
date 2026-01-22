@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  import idleGif from '$lib/assets/vpet-idle.gif';
-  import walkGif from '$lib/assets/vpet-walk.gif';
+  import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
+  import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
 
   // ⬇️ MUST be nullable
   export let featureImage: HTMLImageElement | null = null;

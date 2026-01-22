@@ -1,12 +1,12 @@
 <script lang="ts">
-	import vpetlingsLogo from '$lib/assets/vpetlings-logo-raw.png';
+	import vpetlingsLogo from '$lib/assets/vpetlings/vpetlings-logo-raw.png';
 	import SteamIcon from '$lib/components/SteamIcon.svelte';
 	import { LINKS } from '$lib/config/links';
 
 	let mobileOpen = false;
 </script>
 
-<header class="header-dither w-full bg-accent-dark text-bg">
+<header class="header-dither w-full bg-accent-dark text-whitish">
 	<nav class="mx-auto flex max-w-5xl items-center px-2 py-1">
 		<!-- Logo -->
 		<a href="/vpetlings" class="flex items-center">

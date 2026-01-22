@@ -6,7 +6,7 @@
 
 <section class="space-y-16">
   <div class="flex justify-center">
-    <img src={vpetlingsLogo} alt="VPetlings" class="logo-bob h-24 object-contain md:h-32" />
+    <img src={vpetlingsLogo} alt="VPetlings" class="logo-bob h-24 object-contain md:h-32 pixelated" />
   </div>
 
   <div class="flex flex-col md:flex-row gap-8 justify-between items-center text-center">

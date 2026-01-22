@@ -41,7 +41,7 @@
 <div class="flex h-full min-h-screen flex-col bg-bg text-text bg-pattern">
 	<Navbar />
 
-	<main class="mx-auto w-full max-w-4xl flex-1 p-4 text-xl bg-white/80">
+	<main class="mx-auto w-full max-w-4xl flex-1 p-4 text-xl bg-[#fdfceb]/50">
 		{@render children()}
 	</main>
 
@@ -63,8 +63,9 @@
         width: 100%;
         height: 100%;
         z-index: -1;
+        background-position: center top;
         background-image: url('/src/lib/assets/background.png');
-        background-repeat: repeat;
-        background-size: 1024px 1024px;
+        background-repeat: repeat-y;
+        background-size: 1989px 1608px;
     }
 </style>

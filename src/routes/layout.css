@@ -4,12 +4,13 @@
 @import 'tailwindcss/utilities'; /* components + utilities */
 
 @theme {
-	--color-bg: #ffffee;
+	--color-bg: #FBDF84;
 	--color-text: #3b2f29;
 	--color-accent: #ffe6ad;
-	--color-accent-dark: #fba574;
+	--color-accent-dark: #fb9d67;
     --color-accent-darker: #db624d;
 	--color-secondary: #2f3f51;
+    --color-whitish: #ffffee;
 }
 
 * {
@@ -43,6 +44,10 @@ body {
 
 .underline-center:hover::after {
     width: 100%;
+}
+
+.pixelated {
+    image-rendering: pixelated;
 }
 
 /* Pixel-style scrollbar */

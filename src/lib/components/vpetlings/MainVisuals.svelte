@@ -42,7 +42,7 @@
   <img
     src={images[index]}
     alt="VPetlings gameplay screenshot"
-    class="mx-auto border-2 border-text rounded bg-bg object-contain"
+    class="mx-auto border-2 border-text rounded object-contain"
   />
 
   <div class="mt-4 flex justify-center gap-2 w-full">

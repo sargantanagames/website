@@ -2,7 +2,7 @@
   import { LINKS } from "$lib/config/links";
 </script>
 
-<footer class="footer-dither w-full text-bg">
+<footer class="footer-dither w-full text-whitish">
   <div class="mx-auto max-w-5xl p-2">
     <div class="flex flex-col items-center gap-0.5 text-center">
       <p>
