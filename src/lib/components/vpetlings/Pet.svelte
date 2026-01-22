@@ -7,7 +7,7 @@
   export let featureImage: HTMLImageElement;
 
   const SPEED = 0.3;
-  const IDLE_DURATION = 2000;
+  const IDLE_DURATION = 1000;
   const IDLE_LOOPS = 2;
   const MOUSE_IDLE_RADIUS = 120;
 
