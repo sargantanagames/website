@@ -19,7 +19,7 @@
   <img
     src={imageFeature1}
     alt="Lots of little behaviors"
-    class="max-w-full rounded object-contain"
+    class="max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -37,7 +37,7 @@
   <img
     src={imageFeature3}
     alt="Make it yours"
-    class="max-w-full rounded object-contain"
+    class="max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -60,7 +60,7 @@
   <img
     src={imageFeature5}
     alt="Discover new VPets"
-    class="max-w-full rounded object-contain"
+    class="max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -84,7 +84,7 @@
   <img
     src={imageFeature7}
     alt="Train and battle"
-    class="max-w-full rounded object-contain"
+    class="max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
