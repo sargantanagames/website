@@ -6,7 +6,7 @@
 
   export let featureImage: HTMLImageElement;
 
-  const SPEED = 0.3;
+  const BASE_SPEED = 0.0003;
   const IDLE_DURATION = 1000;
   const IDLE_LOOPS = 2;
   const MOUSE_IDLE_RADIUS = 120;
@@ -132,8 +132,12 @@
         state = 'idle';
         idleElapsed = 0;
       } else {
-        x += (dx / dist) * SPEED * dt;
-        y += (dy / dist) * SPEED * dt;
+        const rect = container.getBoundingClientRect();
+        const viewportScale = Math.min(rect.width, rect.height);
+        const speed = BASE_SPEED * viewportScale;
+
+        x += (dx / dist) * speed * dt;
+        y += (dy / dist) * speed * dt;
       }
     }
 
@@ -142,7 +146,7 @@
 
   function handleResize() {
     spawnFromImage(SPAWN_X, SPAWN_Y);
-    const rect = container.getBoundingClientRect();
+    updateContainerHeight()
   }
 
   onMount(() => {
@@ -160,7 +164,7 @@
 
     observer.observe(featureImage);
     updateContainerHeight();
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('pointermove', handleMouseMove);
     window.addEventListener('resize', handleResize);
 
     const rect = container.getBoundingClientRect();
@@ -176,6 +180,7 @@
   });
 
   function updateContainerHeight() {
+    container.style.height = "0px";
     container.style.height = `${document.body.scrollHeight}px`;
   }
 
