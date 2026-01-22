@@ -8,15 +8,37 @@
   import imageFeature7 from "$lib/assets/vpetlings/features/features-7.webp";
   import imageFeature8 from "$lib/assets/vpetlings/features/features-8.avif";
 
-  import Pet from './Pet.svelte';
+  import Pet from "./Pet.svelte";
+
   let featureImage: HTMLImageElement;
+
+  function inView(node: HTMLElement) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          node.classList.add("is-visible");
+          observer.unobserve(node);
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(node);
+
+    return {
+      destroy() {
+        observer.disconnect();
+      }
+    };
+  }
 </script>
 
 <section class="space-y-4 md:space-y-8 text-base md:text-xl text-center">
   <img
+    use:inView
     src={imageFeature1}
     alt="Lots of little behaviors"
-    class="max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain "
   />
 
   <p>
@@ -26,18 +48,19 @@
   </p>
 
   <img
+    use:inView
     bind:this={featureImage}
     src={imageFeature2}
     alt="Pet animations"
-    class="max-w-full rounded object-contain"
+    class="reveal max-w-full rounded object-contain is-visible"
   />
 
-  <Pet featureImage={featureImage} />
 
   <img
+    use:inView
     src={imageFeature3}
     alt="Make it yours"
-    class="max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -47,9 +70,10 @@
   </p>
 
   <img
+    use:inView
     src={imageFeature4}
     alt="Rooms"
-    class="max-w-full rounded object-contain"
+    class="reveal max-w-full rounded object-contain"
   />
 
   <p>
@@ -58,9 +82,10 @@
   </p>
 
   <img
+    use:inView
     src={imageFeature5}
     alt="Discover new VPets"
-    class="max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -71,9 +96,10 @@
   </p>
 
   <img
+    use:inView
     src={imageFeature6}
     alt="Eggs and stage animations"
-    class="max-w-full rounded object-contain"
+    class="reveal max-w-full rounded object-contain"
   />
 
   <p>
@@ -82,9 +108,10 @@
   </p>
 
   <img
+    use:inView
     src={imageFeature7}
     alt="Train and battle"
-    class="max-w-full md:max-w-2/3 mx-auto object-contain"
+    class="reveal max-w-full md:max-w-2/3 mx-auto object-contain"
   />
 
   <p>
@@ -94,9 +121,25 @@
   </p>
 
   <img
+    use:inView
     src={imageFeature8}
     alt="Combat menus"
-    class="max-w-full rounded object-contain"
+    class="reveal max-w-full rounded object-contain"
   />
-
 </section>
+
+<style>
+    .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition:
+                opacity 600ms ease,
+                transform 600ms ease;
+        will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
