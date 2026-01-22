@@ -31,6 +31,8 @@
 
   let isActive = false;
   let petSize = 144;
+  const SPAWN_X = 0.09;
+  const SPAWN_Y = 0.48;
 
   function handleMouseMove(e: MouseEvent) {
     mouseX = e.clientX;
@@ -121,12 +123,12 @@
   }
 
   onMount(() => {
-    spawnFromImage(0.09, 0.48);
+    // initial placement (before activation)
+    spawnFromImage(SPAWN_X, SPAWN_Y);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !isActive) {
-          console.log('Activating pet');
           isActive = true;
           lastTime = performance.now();
         }
@@ -137,6 +139,7 @@
     observer.observe(featureImage);
 
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', handleResize);
 
     const rect = container.getBoundingClientRect();
     radius = Math.min(rect.width, rect.height);
@@ -146,9 +149,17 @@
     return () => {
       observer.disconnect();
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(raf);
     };
   });
+
+  function handleResize() {
+    spawnFromImage(SPAWN_X, SPAWN_Y);
+
+    const rect = container.getBoundingClientRect();
+    radius = Math.min(rect.width, rect.height);
+  }
 </script>
 
 <div
