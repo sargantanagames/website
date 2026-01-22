@@ -9,7 +9,7 @@
 
 <svelte:head>
 	<!-- Primary Meta -->
-	<title>VPetlings · Wishlist on Steam</title>
+	<title>VPetlings · Wishlist now on Steam!</title>
 	<meta
 		name="description"
 		content="Wishlist now! Raise a cozy virtual pet that lives on your desktop. Hatch, care for, evolve, and battle your companion while you work, play, or browse."
@@ -20,7 +20,7 @@
 
 	<!-- Open Graph -->
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="VPetlings" />
+	<meta property="og:title" content="VPetlings · Wishlist now on Steam!" />
 	<meta
 		property="og:description"
 		content="A cozy desktop virtual pet inspired by Tamagotchi and Digimon. Raise, evolve, and care for your companion over time."
@@ -30,7 +30,7 @@
 
 	<!-- Twitter / X -->
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="VPetlings - A Cozy Virtual Pet on Your Desktop" />
+	<meta name="twitter:title" content="VPetlings · Wishlist now on Steam!" />
 	<meta
 		name="twitter:description"
 		content="Raise your own virtual pet right on your desktop. A cozy companion while you work, play, or browse."

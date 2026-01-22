@@ -50,13 +50,13 @@
 
     <div
       use:inView
-      class="reveal from-right inline-block z-50"
+      class="reveal from-right w-full inline-block z-50"
     >
       <img
         bind:this={featureImage}
         src={imageFeature2}
         alt="Pet animations"
-        class="block max-w-full rounded object-contain"
+        class="block max-w-full w-full rounded object-contain pixelated"
       />
 
       <Pet featureImage={featureImage} />
