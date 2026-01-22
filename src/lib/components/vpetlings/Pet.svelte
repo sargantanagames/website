@@ -8,7 +8,7 @@
 
   const SPEED = 0.3;
   const IDLE_DURATION = 1000;
-  const IDLE_LOOPS = 33;
+  const IDLE_LOOPS = 2;
   const MOUSE_IDLE_RADIUS = 120;
 
   let container: HTMLDivElement;
@@ -30,21 +30,28 @@
   let radius = 0;
 
   let isActive = false;
+  let petSize = 144;
 
   function handleMouseMove(e: MouseEvent) {
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
 
-  function spawnFromImage(px: number, py: number) {
+  /**
+   * Spawn pet using normalized image coordinates (0–1)
+   */
+  function spawnFromImage(nx: number, ny: number) {
     const imageRect = featureImage.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
 
-    x = imageRect.left + px - containerRect.left;
-    y = imageRect.top + py - containerRect.top - 20;
+    x = imageRect.left + imageRect.width * nx - containerRect.left;
+    y = imageRect.top + imageRect.height * ny - containerRect.top;
 
     targetX = x;
     targetY = y;
+
+    // scale pet relative to image width
+    petSize = imageRect.width * 0.17;
   }
 
   function isMouseNear() {
@@ -114,15 +121,17 @@
   }
 
   onMount(() => {
+    spawnFromImage(0.09, 0.48);
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !isActive) {
+          console.log('Activating pet');
           isActive = true;
-          spawnFromImage(96, 114);
           lastTime = performance.now();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 1 }
     );
 
     observer.observe(featureImage);
@@ -151,6 +160,8 @@
     alt="Virtual pet"
     class="pointer-events-none absolute select-none h-36 w-36"
     style="
+      width: {petSize}px;
+      height: {petSize}px;
       transform:
         translate({x}px, {y}px)
         translate(-50%, -50%)

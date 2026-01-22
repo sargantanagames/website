@@ -1,6 +1,6 @@
 <script lang="ts">
   import imageFeature1 from "$lib/assets/vpetlings/features/features-1.webp";
-  import imageFeature2 from "$lib/assets/vpetlings/features/features-2.apng";
+  import imageFeature2 from "$lib/assets/vpetlings/features/features-2.gif";
   import imageFeature3 from "$lib/assets/vpetlings/features/features-3.webp";
   import imageFeature4 from "$lib/assets/vpetlings/features/features-4.apng";
   import imageFeature5 from "$lib/assets/vpetlings/features/features-5.webp";
@@ -32,6 +32,7 @@
     class="max-w-full rounded object-contain"
   />
 
+  <Pet featureImage={featureImage} />
 
   <img
     src={imageFeature3}
