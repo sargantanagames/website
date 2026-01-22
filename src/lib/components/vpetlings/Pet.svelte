@@ -5,18 +5,15 @@
   import walkGif from '$lib/assets/vpet-walk.gif';
 
   const SPEED = 0.3; // px per ms
-  const RADIUS = 128;
-
-  // duration of ONE idle animation loop (ms)
   const IDLE_DURATION = 1000;
   const IDLE_LOOPS = 3;
+  const MOUSE_IDLE_RADIUS = 120; // px
 
   let container: HTMLDivElement;
   let raf: number;
 
-  // center-based position
-  let x = 0;
-  let y = 0;
+  let x = 118;
+  let y = 118;
   let targetX = 0;
   let targetY = 0;
 
@@ -27,12 +24,37 @@
   let mouseY = 0;
   let lastTime = 0;
 
-  // direction the sprite is facing
   let facing: 'left' | 'right' = 'right';
+
+  let radius = 0;
+
+  function reset() {
+    const rect = container.getBoundingClientRect();
+
+    x = rect.width / 2;
+    y = rect.height / 2;
+
+    targetX = x;
+    targetY = y;
+
+    state = 'idle';
+    idleElapsed = 0;
+    lastTime = performance.now();
+
+    radius = Math.min(rect.width, rect.height);
+  }
 
   function handleMouseMove(e: MouseEvent) {
     mouseX = e.clientX;
     mouseY = e.clientY;
+  }
+
+  function isMouseNear() {
+    const rect = container.getBoundingClientRect();
+    const petScreenX = rect.left + x;
+    const petScreenY = rect.top + y;
+
+    return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < MOUSE_IDLE_RADIUS;
   }
 
   function pickTarget() {
@@ -42,12 +64,9 @@
     const originY = mouseY || rect.top + rect.height / 2;
 
     const angle = Math.random() * Math.PI * 2;
-    const r = Math.random() * RADIUS;
 
-    targetX = originX + Math.cos(angle) * r - rect.left;
-    targetY = originY + Math.sin(angle) * r - rect.top;
-
-    console.log(`New target: (${targetX.toFixed(2)}, ${targetY.toFixed(2)})`);
+    targetX = originX + Math.cos(angle) * radius - rect.left;
+    targetY = originY + Math.sin(angle) * radius - rect.top;
 
     state = 'walk';
   }
@@ -57,11 +76,14 @@
     lastTime = time;
 
     if (state === 'idle') {
-      idleElapsed += dt;
-
-      if (idleElapsed >= IDLE_DURATION * IDLE_LOOPS) {
-        idleElapsed = 0;
-        pickTarget();
+      if (isMouseNear()) {
+        idleElapsed = 0; // freeze idle indefinitely
+      } else {
+        idleElapsed += dt;
+        if (idleElapsed >= IDLE_DURATION * IDLE_LOOPS) {
+          idleElapsed = 0;
+          pickTarget();
+        }
       }
     }
 
@@ -70,7 +92,6 @@
       const dy = targetY - y;
       const dist = Math.hypot(dx, dy);
 
-      // update facing direction
       if (Math.abs(dx) > 1) {
         facing = dx < 0 ? 'left' : 'right';
       }
@@ -90,17 +111,16 @@
   }
 
   onMount(() => {
-    const rect = container.getBoundingClientRect();
-
-    // exact center start
-    x = rect.width / 2;
-    y = rect.height / 2;
+    reset();
 
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', reset);
+
     raf = requestAnimationFrame(loop);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', reset);
       cancelAnimationFrame(raf);
     };
   });
