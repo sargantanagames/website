@@ -1,5 +1,5 @@
 <script lang="ts">
-  import imageFeature1 from "$lib/assets/vpetlings/features/features-1.webp";
+  import imageFeature1 from "$lib/assets/vpetlings/features/features-1.png";
   import imageFeature2 from "$lib/assets/vpetlings/features/features-2.gif";
   import imageFeature3 from "$lib/assets/vpetlings/features/features-3.webp";
   import imageFeature4 from "$lib/assets/vpetlings/features/features-4.gif";
@@ -39,7 +39,7 @@
       use:inView
       src={imageFeature1}
       alt="Lots of little behaviors"
-      class="reveal from-right from-left max-w-full md:max-w-2/3 mx-auto object-contain is-visible"
+      class="reveal from-right from-left w-2/3 md:w-1/2 mx-auto object-contain is-visible pixelated"
     />
 
     <p>
@@ -69,7 +69,7 @@
       use:inView
       src={imageFeature3}
       alt="Make it yours"
-      class="reveal from-left max-w-full md:h-16 mx-auto  object-contain"
+      class="reveal from-right from-left w-2/3 md:w-1/2 mx-auto object-contain is-visible pixelated"
     />
 
     <p>
