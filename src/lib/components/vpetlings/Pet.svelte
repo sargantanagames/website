@@ -7,15 +7,18 @@
   export let featureImage: HTMLImageElement;
 
   const SPEED = 0.3;
-  const IDLE_DURATION = 1000;
+  const IDLE_DURATION = 2000;
   const IDLE_LOOPS = 2;
   const MOUSE_IDLE_RADIUS = 120;
+
+  const SPAWN_X = 0.09;
+  const SPAWN_Y = 0.48;
 
   let container: HTMLDivElement;
   let raf: number;
 
-  let x = 0;
-  let y = 0;
+  let x = -10000;
+  let y = -10000;
   let targetX = 0;
   let targetY = 0;
 
@@ -27,21 +30,15 @@
   let lastTime = 0;
 
   let facing: 'left' | 'right' = 'left';
-  let radius = 0;
 
   let isActive = false;
   let petSize = 144;
-  const SPAWN_X = 0.09;
-  const SPAWN_Y = 0.48;
 
   function handleMouseMove(e: MouseEvent) {
     mouseX = e.clientX;
     mouseY = e.clientY;
   }
 
-  /**
-   * Spawn pet using normalized image coordinates (0–1)
-   */
   function spawnFromImage(nx: number, ny: number) {
     const imageRect = featureImage.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
@@ -52,7 +49,6 @@
     targetX = x;
     targetY = y;
 
-    // scale pet relative to image width
     petSize = imageRect.width * 0.17;
   }
 
@@ -67,16 +63,38 @@
   function pickTarget() {
     const rect = container.getBoundingClientRect();
 
+    if (rect.width === 0 || rect.height === 0) {
+      state = 'idle';
+      return;
+    }
+
+    const minX = petSize / 2;
+    const minY = petSize / 2;
+    const maxX = rect.width - petSize / 2;
+    const maxY = rect.height - petSize / 2;
+
+    // Fallback: center of screen if mouse hasn't moved yet
     const originX = mouseX || rect.left + rect.width / 2;
     const originY = mouseY || rect.top + rect.height / 2;
 
+    // Pick a random point within a radius around the mouse
+    const radius = MOUSE_IDLE_RADIUS;
     const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * radius;
 
-    targetX = originX + Math.cos(angle) * radius - rect.left;
-    targetY = originY + Math.sin(angle) * radius - rect.top;
+    let tx = originX + Math.cos(angle) * distance - rect.left;
+    let ty = originY + Math.sin(angle) * distance - rect.top;
+
+    // HARD CLAMP to window bounds
+    tx = Math.min(maxX, Math.max(minX, tx));
+    ty = Math.min(maxY, Math.max(minY, ty));
+
+    targetX = tx;
+    targetY = ty;
 
     state = 'walk';
   }
+
 
   function loop(time: number) {
     if (!isActive) {
@@ -122,8 +140,12 @@
     raf = requestAnimationFrame(loop);
   }
 
+  function handleResize() {
+    spawnFromImage(SPAWN_X, SPAWN_Y);
+    const rect = container.getBoundingClientRect();
+  }
+
   onMount(() => {
-    // initial placement (before activation)
     spawnFromImage(SPAWN_X, SPAWN_Y);
 
     const observer = new IntersectionObserver(
@@ -137,12 +159,11 @@
     );
 
     observer.observe(featureImage);
-
+    updateContainerHeight();
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('resize', handleResize);
 
     const rect = container.getBoundingClientRect();
-    radius = Math.min(rect.width, rect.height);
 
     raf = requestAnimationFrame(loop);
 
@@ -154,22 +175,20 @@
     };
   });
 
-  function handleResize() {
-    spawnFromImage(SPAWN_X, SPAWN_Y);
-
-    const rect = container.getBoundingClientRect();
-    radius = Math.min(rect.width, rect.height);
+  function updateContainerHeight() {
+    container.style.height = `${document.body.scrollHeight}px`;
   }
+
 </script>
 
 <div
   bind:this={container}
-  class="relative h-full w-full z-50"
+  class="absolute top-0 left-0 w-full pointer-events-none z-50"
 >
   <img
     src={state === 'idle' ? idleGif : walkGif}
     alt="Virtual pet"
-    class="pointer-events-none absolute select-none h-36 w-36"
+    class="pointer-events-none absolute select-none"
     style="
       width: {petSize}px;
       height: {petSize}px;
