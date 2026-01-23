@@ -4,80 +4,81 @@
 @import 'tailwindcss/utilities'; /* components + utilities */
 
 @theme {
-	--color-bg: #FBDF84;
+	--color-bg: #fbdf84;
 	--color-text: #3b2f29;
 	--color-accent: #ffe6ad;
 	--color-accent-dark: #fb9d67;
-    --color-accent-darker: #db624d;
+	--color-accent-darker: #db624d;
 	--color-secondary: #2f3f51;
-    --color-whitish: #ffffee;
+	--color-whitish: #ffffee;
 }
 
 * {
 	font-family: 'Jersey 10', sans-serif;
 }
 
-html, body {
-    overflow-x: hidden;
+html,
+body {
+	overflow-x: hidden;
 }
 
 .underline-center {
-    position: relative;
-    display: inline-block;
-    text-decoration: none;
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
 }
 
 .underline-center::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 4px;
 
-    width: 70%;
-    height: 2px;
+	width: 70%;
+	height: 2px;
 
-    background-color: currentColor;
+	background-color: currentColor;
 
-    transform: translateX(-50%);
-    transition: width 180ms ease-out;
+	transform: translateX(-50%);
+	transition: width 180ms ease-out;
 }
 
 .underline-center:hover::after {
-    width: 100%;
+	width: 100%;
 }
 
 .pixelated {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
 }
 
 /* Pixel-style scrollbar */
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+	width: 12px;
+	height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: var(--color-bg);
+	background-color: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--color-accent-dark);
-    border: 2px solid var(--color-bg);
-    border-radius: 0; /* square edges */
+	background-color: var(--color-accent-dark);
+	border: 2px solid var(--color-bg);
+	border-radius: 0; /* square edges */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-accent-darker);
+	background-color: var(--color-accent-darker);
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: var(--color-bg);
+	background-color: var(--color-bg);
 }
 
 /* Firefox (square by default) */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-accent-dark) var(--color-bg);
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-accent-dark) var(--color-bg);
 }

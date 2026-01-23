@@ -1,253 +1,247 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
-  import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
-  import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
+	import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
+	import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
 
-  export let featureImage: HTMLImageElement | null = null;
+	export let featureImage: HTMLImageElement | null = null;
 
-  const BASE_SPEED = 0.0003;
-  const IDLE_DURATION = 1000;
-  const IDLE_LOOPS = 3;
-  const MOUSE_IDLE_RADIUS = 120;
+	const BASE_SPEED = 0.0003;
+	const IDLE_DURATION = 1000;
+	const IDLE_LOOPS = 3;
+	const MOUSE_IDLE_RADIUS = 120;
 
-  const SPAWN_X = 0.09;
-  const SPAWN_Y = 0.48;
+	const SPAWN_X = 0.09;
+	const SPAWN_Y = 0.48;
 
-  let container: HTMLDivElement | null = null;
-  let raf: number;
+	let container: HTMLDivElement | null = null;
+	let raf: number;
 
-  let x = -10000;
-  let y = -10000;
-  let targetX = 0;
-  let targetY = 0;
+	let x = -10000;
+	let y = -10000;
+	let targetX = 0;
+	let targetY = 0;
 
-  let state: 'idle' | 'walk' = 'idle';
-  let idleElapsed = 0;
+	let state: 'idle' | 'walk' = 'idle';
+	let idleElapsed = 0;
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let lastMouseX = 0;
-  let lastMouseY = 0;
-  let mouseTravel = 0;
+	let mouseX = 0;
+	let mouseY = 0;
+	let lastMouseX = 0;
+	let lastMouseY = 0;
+	let mouseTravel = 0;
 
-  let lastTime = 0;
+	let lastTime = 0;
 
-  let facing: 'left' | 'right' = 'left';
+	let facing: 'left' | 'right' = 'left';
 
-  let isActive = false;
-  let petSize = 144;
+	let isActive = false;
+	let petSize = 144;
 
-  function handleMouseMove(e: MouseEvent) {
-    if (lastMouseX !== 0 || lastMouseY !== 0) {
-      mouseTravel += Math.hypot(
-        e.clientX - lastMouseX,
-        e.clientY - lastMouseY
-      );
-    }
+	function handleMouseMove(e: MouseEvent) {
+		if (lastMouseX !== 0 || lastMouseY !== 0) {
+			mouseTravel += Math.hypot(e.clientX - lastMouseX, e.clientY - lastMouseY);
+		}
 
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
+		lastMouseX = e.clientX;
+		lastMouseY = e.clientY;
 
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+		mouseX = e.clientX;
+		mouseY = e.clientY;
 
-    if (isActive && mouseTravel >= petSize * 2) {
-      mouseTravel = 0;
-      idleElapsed = 0;
-      pickTarget();
-    }
-  }
+		if (isActive && mouseTravel >= petSize * 2) {
+			mouseTravel = 0;
+			idleElapsed = 0;
+			pickTarget();
+		}
+	}
 
-  function spawnFromImage(nx: number, ny: number) {
-    if (!featureImage || !container) return;
+	function spawnFromImage(nx: number, ny: number) {
+		if (!featureImage || !container) return;
 
-    const imageRect = featureImage.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
+		const imageRect = featureImage.getBoundingClientRect();
+		const containerRect = container.getBoundingClientRect();
 
-    x = imageRect.left + imageRect.width * nx - containerRect.left;
-    y = imageRect.top + imageRect.height * ny - containerRect.top;
+		x = imageRect.left + imageRect.width * nx - containerRect.left;
+		y = imageRect.top + imageRect.height * ny - containerRect.top;
 
-    targetX = x;
-    targetY = y;
+		targetX = x;
+		targetY = y;
 
-    petSize = imageRect.width * 0.17;
+		petSize = imageRect.width * 0.17;
 
-    mouseTravel = 0;
-    lastMouseX = 0;
-    lastMouseY = 0;
-  }
+		mouseTravel = 0;
+		lastMouseX = 0;
+		lastMouseY = 0;
+	}
 
-  function isMouseNear() {
-    if (!container) return false;
+	function isMouseNear() {
+		if (!container) return false;
 
-    const rect = container.getBoundingClientRect();
-    const petScreenX = rect.left + x;
-    const petScreenY = rect.top + y;
+		const rect = container.getBoundingClientRect();
+		const petScreenX = rect.left + x;
+		const petScreenY = rect.top + y;
 
-    return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < petSize * 3;
-  }
+		return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < petSize * 3;
+	}
 
-  function pickTarget() {
-    if (!container) return;
+	function pickTarget() {
+		if (!container) return;
 
-    const rect = container.getBoundingClientRect();
+		const rect = container.getBoundingClientRect();
 
-    if (rect.width === 0 || rect.height === 0) {
-      state = 'idle';
-      return;
-    }
+		if (rect.width === 0 || rect.height === 0) {
+			state = 'idle';
+			return;
+		}
 
-    const minX = petSize / 2;
-    const minY = petSize / 2;
-    const maxX = rect.width - petSize / 2;
-    const maxY = rect.height - petSize / 2;
+		const minX = petSize / 2;
+		const minY = petSize / 2;
+		const maxX = rect.width - petSize / 2;
+		const maxY = rect.height - petSize / 2;
 
-    const originX = mouseX || rect.left + rect.width / 2;
-    const originY = mouseY || rect.top + rect.height / 2;
+		const originX = mouseX || rect.left + rect.width / 2;
+		const originY = mouseY || rect.top + rect.height / 2;
 
-    const radius = MOUSE_IDLE_RADIUS;
-    const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * radius;
+		const radius = MOUSE_IDLE_RADIUS;
+		const angle = Math.random() * Math.PI * 2;
+		const distance = Math.random() * radius;
 
-    let tx = originX + Math.cos(angle) * distance - rect.left;
-    let ty = originY + Math.sin(angle) * distance - rect.top;
+		let tx = originX + Math.cos(angle) * distance - rect.left;
+		let ty = originY + Math.sin(angle) * distance - rect.top;
 
-    tx = Math.min(maxX, Math.max(minX, tx));
-    ty = Math.min(maxY, Math.max(minY, ty));
+		tx = Math.min(maxX, Math.max(minX, tx));
+		ty = Math.min(maxY, Math.max(minY, ty));
 
-    targetX = tx;
-    targetY = ty;
+		targetX = tx;
+		targetY = ty;
 
-    state = 'walk';
-  }
+		state = 'walk';
+	}
 
-  function loop(time: number) {
-    raf = requestAnimationFrame(loop);
+	function loop(time: number) {
+		raf = requestAnimationFrame(loop);
 
-    if (!isActive || !container) return;
+		if (!isActive || !container) return;
 
-    const dt = time - lastTime;
-    lastTime = time;
+		const dt = time - lastTime;
+		lastTime = time;
 
-    if (state === 'idle') {
-      if (isMouseNear()) {
-        idleElapsed = 0;
-      } else {
-        idleElapsed += dt;
-        if (idleElapsed >= IDLE_DURATION * IDLE_LOOPS) {
-          idleElapsed = 0;
-          pickTarget();
-        }
-      }
-    }
+		if (state === 'idle') {
+			if (isMouseNear()) {
+				idleElapsed = 0;
+			} else {
+				idleElapsed += dt;
+				if (idleElapsed >= IDLE_DURATION * IDLE_LOOPS) {
+					idleElapsed = 0;
+					pickTarget();
+				}
+			}
+		}
 
-    if (state === 'walk') {
-      const dx = targetX - x;
-      const dy = targetY - y;
-      const dist = Math.hypot(dx, dy);
+		if (state === 'walk') {
+			const dx = targetX - x;
+			const dy = targetY - y;
+			const dist = Math.hypot(dx, dy);
 
-      if (Math.abs(dx) > 1) {
-        facing = dx < 0 ? 'left' : 'right';
-      }
+			if (Math.abs(dx) > 1) {
+				facing = dx < 0 ? 'left' : 'right';
+			}
 
-      if (dist < 10) {
-        x = targetX;
-        y = targetY;
-        state = 'idle';
-        idleElapsed = 0;
-      } else {
-        const rect = container.getBoundingClientRect();
-        const viewportScale = Math.min(rect.width, rect.height);
-        const speed = BASE_SPEED * viewportScale;
+			if (dist < 10) {
+				x = targetX;
+				y = targetY;
+				state = 'idle';
+				idleElapsed = 0;
+			} else {
+				const rect = container.getBoundingClientRect();
+				const viewportScale = Math.min(rect.width, rect.height);
+				const speed = BASE_SPEED * viewportScale;
 
-        x += (dx / dist) * speed * dt;
-        y += (dy / dist) * speed * dt;
-      }
-    }
-  }
+				x += (dx / dist) * speed * dt;
+				y += (dy / dist) * speed * dt;
+			}
+		}
+	}
 
-  function updateContainerHeight() {
-    if (!container || !isActive) return;
+	function updateContainerHeight() {
+		if (!container || !isActive) return;
 
-    container.style.height = '0px';
-    container.style.height = `${document.body.scrollHeight}px`;
-  }
+		container.style.height = '0px';
+		container.style.height = `${document.body.scrollHeight}px`;
+	}
 
-  function handleResize() {
-    spawnFromImage(SPAWN_X, SPAWN_Y);
-    updateContainerHeight();
-  }
+	function handleResize() {
+		spawnFromImage(SPAWN_X, SPAWN_Y);
+		updateContainerHeight();
+	}
 
-  function reparentToWorld() {
-    if (!container) return;
+	function reparentToWorld() {
+		if (!container) return;
 
-    const world = container.parentElement?.parentElement;
-    if (!world) return;
+		const world = container.parentElement?.parentElement;
+		if (!world) return;
 
-    world.appendChild(container);
-  }
+		world.appendChild(container);
+	}
 
-  onMount(() => {
-    const waitForAnchor = () => {
-      if (container && featureImage) {
-        spawnFromImage(SPAWN_X, SPAWN_Y);
+	onMount(() => {
+		const waitForAnchor = () => {
+			if (container && featureImage) {
+				spawnFromImage(SPAWN_X, SPAWN_Y);
 
-        const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
+				const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
 
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting && !isActive && revealEl) {
-              const onDone = (e: TransitionEvent) => {
-                if (e.target !== revealEl) return;
+				const observer = new IntersectionObserver(
+					([entry]) => {
+						if (entry.isIntersecting && !isActive && revealEl) {
+							const onDone = (e: TransitionEvent) => {
+								if (e.target !== revealEl) return;
 
-                revealEl.removeEventListener('transitionend', onDone);
+								revealEl.removeEventListener('transitionend', onDone);
 
-                isActive = true;
-                lastTime = performance.now();
+								isActive = true;
+								lastTime = performance.now();
 
-                reparentToWorld();
-                spawnFromImage(SPAWN_X, SPAWN_Y);
-                updateContainerHeight();
-              };
+								reparentToWorld();
+								spawnFromImage(SPAWN_X, SPAWN_Y);
+								updateContainerHeight();
+							};
 
-              revealEl.addEventListener('transitionend', onDone, { once: true });
-            }
-          },
-          { threshold: 1 }
-        );
+							revealEl.addEventListener('transitionend', onDone, { once: true });
+						}
+					},
+					{ threshold: 1 }
+				);
 
-        observer.observe(featureImage);
+				observer.observe(featureImage);
 
-        window.addEventListener('pointermove', handleMouseMove);
-        window.addEventListener('resize', handleResize);
+				window.addEventListener('pointermove', handleMouseMove);
+				window.addEventListener('resize', handleResize);
 
-        raf = requestAnimationFrame(loop);
+				raf = requestAnimationFrame(loop);
 
-        return () => {
-          observer.disconnect();
-          window.removeEventListener('pointermove', handleMouseMove);
-          window.removeEventListener('resize', handleResize);
-          cancelAnimationFrame(raf);
-        };
-      }
+				return () => {
+					observer.disconnect();
+					window.removeEventListener('pointermove', handleMouseMove);
+					window.removeEventListener('resize', handleResize);
+					cancelAnimationFrame(raf);
+				};
+			}
 
-      requestAnimationFrame(waitForAnchor);
-    };
+			requestAnimationFrame(waitForAnchor);
+		};
 
-    waitForAnchor();
-  });
+		waitForAnchor();
+	});
 </script>
 
-<div
-  bind:this={container}
-  class="absolute top-0 left-0 w-full pointer-events-none z-50"
->
-  <img
-    src={state === 'idle' ? idleGif : walkGif}
-    alt="Virtual pet"
-    class="pointer-events-none absolute select-none"
-    style="
+<div bind:this={container} class="pointer-events-none absolute top-0 left-0 z-50 w-full">
+	<img
+		src={state === 'idle' ? idleGif : walkGif}
+		alt="Virtual pet"
+		class="pointer-events-none absolute select-none"
+		style="
       width: {petSize}px;
       height: {petSize}px;
       transform:
@@ -255,5 +249,5 @@
         translate(-50%, -50%)
         scaleX({facing === 'left' ? -1 : 1});
     "
-  />
+	/>
 </div>

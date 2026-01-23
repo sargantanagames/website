@@ -38,34 +38,33 @@
 	<meta name="twitter:image" content="/og-image.png" />
 </svelte:head>
 
-<div class="flex h-full min-h-screen flex-col bg-bg text-text bg-pattern">
+<div class="bg-pattern flex h-full min-h-screen flex-col bg-bg text-text">
 	<Navbar />
 
-	<main class="mx-auto w-full max-w-4xl flex-1 p-4 text-xl bg-[#fdfceb]/50">
+	<main class="mx-auto w-full max-w-4xl flex-1 bg-[#fdfceb]/50 p-4 text-xl">
 		{@render children()}
 	</main>
 
 	<Footer />
 </div>
 
-
 <style>
-    .bg-pattern {
-        position: relative;
-        z-index: 1;
-    }
+	.bg-pattern {
+		position: relative;
+		z-index: 1;
+	}
 
-    .bg-pattern::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background-position: center top;
-        background-image: url('/src/lib/assets/background.webp');
-        background-repeat: repeat-y;
-        background-size: 1989px 1608px;
-    }
+	.bg-pattern::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		background-position: center top;
+		background-image: url('/src/lib/assets/background.webp');
+		background-repeat: repeat-y;
+		background-size: 1989px 1608px;
+	}
 </style>
