@@ -7,7 +7,7 @@
   import screenshot4 from '$lib/assets/vpetlings/screenshots/screenshot_4.webp';
   import screenshot5 from '$lib/assets/vpetlings/screenshots/screenshot_5.webp';
   import screenshot6 from '$lib/assets/vpetlings/screenshots/screenshot_6.webp';
-  import screenshot7 from '$lib/assets/vpetlings/screenshots/screenshot_8.webp';
+  import screenshot7 from '$lib/assets/vpetlings/screenshots/screenshot_7.webp';
   import screenshot8 from '$lib/assets/vpetlings/screenshots/screenshot_8.webp';
 
   const images = [
