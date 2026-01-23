@@ -36,7 +36,9 @@
 	let facing: 'left' | 'right' = 'left';
 
 	let isActive = false;
-	let petSize = 144;
+  let firstActivation = true;
+
+  let petSize = 144;
 
 	function handleMouseMove(e: MouseEvent) {
 		if (lastMouseX !== 0 || lastMouseY !== 0) {
@@ -127,19 +129,26 @@
 		const dt = time - lastTime;
 		lastTime = time;
 
-		if (state === 'idle') {
-			if (isMouseNear()) {
-				idleElapsed = 0;
-			} else {
-				idleElapsed += dt;
-				if (idleElapsed >= IDLE_DURATION * IDLE_LOOPS) {
-					idleElapsed = 0;
-					pickTarget();
-				}
-			}
-		}
+    if (state === 'idle') {
+      if (isMouseNear()) {
+        idleElapsed = 0;
+      } else {
+        idleElapsed += dt;
 
-		if (state === 'walk') {
+        const effectiveIdle =
+          IDLE_DURATION *
+          (firstActivation ? IDLE_LOOPS / 4 : IDLE_LOOPS);
+
+        if (idleElapsed >= effectiveIdle) {
+          idleElapsed = 0;
+          firstActivation = false;
+          pickTarget();
+        }
+      }
+    }
+
+
+    if (state === 'walk') {
 			const dx = targetX - x;
 			const dy = targetY - y;
 			const dist = Math.hypot(dx, dy);
