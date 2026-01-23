@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
 
-  import img0 from '$lib/assets/vpetlings/screenshots/img.png';
-  import img1 from '$lib/assets/vpetlings/screenshots/img_1.png';
-  import img2 from '$lib/assets/vpetlings/screenshots/img_2.png';
-  import img3 from '$lib/assets/vpetlings/screenshots/img_3.png';
-  import img4 from '$lib/assets/vpetlings/screenshots/img_4.png';
-  import img5 from '$lib/assets/vpetlings/screenshots/img_5.png';
-  import img6 from '$lib/assets/vpetlings/screenshots/img_6.png';
-  import img7 from '$lib/assets/vpetlings/screenshots/img_7.png';
+  import screenshot1 from '$lib/assets/vpetlings/screenshots/screenshot_1.webp';
+  import screenshot2 from '$lib/assets/vpetlings/screenshots/screenshot_2.webp';
+  import screenshot3 from '$lib/assets/vpetlings/screenshots/screenshot_3.webp';
+  import screenshot4 from '$lib/assets/vpetlings/screenshots/screenshot_4.webp';
+  import screenshot5 from '$lib/assets/vpetlings/screenshots/screenshot_5.webp';
+  import screenshot6 from '$lib/assets/vpetlings/screenshots/screenshot_6.webp';
+  import screenshot7 from '$lib/assets/vpetlings/screenshots/screenshot_8.webp';
+  import screenshot8 from '$lib/assets/vpetlings/screenshots/screenshot_8.webp';
 
-  const images = [img0, img1, img2, img3, img4, img5, img6, img7];
+  const images = [screenshot1, screenshot2, screenshot3, screenshot4, screenshot5, screenshot6, screenshot7, screenshot8];
 
   let index = 0;
   let interval: number;
@@ -42,7 +42,7 @@
   <img
     src={images[index]}
     alt="VPetlings gameplay screenshot"
-    class="mx-auto border-2 border-text rounded object-contain"
+    class="mx-auto border-2 border-text rounded object-contain w-full md:w-5/6"
   />
 
   <div class="mt-4 flex justify-center gap-2 w-full">

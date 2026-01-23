@@ -64,7 +64,7 @@
         height: 100%;
         z-index: -1;
         background-position: center top;
-        background-image: url('/src/lib/assets/background.png');
+        background-image: url('/src/lib/assets/background.webp');
         background-repeat: repeat-y;
         background-size: 1989px 1608px;
     }

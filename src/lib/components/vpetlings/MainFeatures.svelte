@@ -1,12 +1,12 @@
 <script lang="ts">
-  import imageFeature1 from "$lib/assets/vpetlings/features/features-1.png";
-  import imageFeature2 from "$lib/assets/vpetlings/features/features-2.gif";
-  import imageFeature3 from "$lib/assets/vpetlings/features/features-3.webp";
-  import imageFeature4 from "$lib/assets/vpetlings/features/features-4.gif";
-  import imageFeature5 from "$lib/assets/vpetlings/features/features-5.webp";
-  import imageFeature6 from "$lib/assets/vpetlings/features/features-6.gif";
-  import imageFeature7 from "$lib/assets/vpetlings/features/features-7.png";
-  import imageFeature8 from "$lib/assets/vpetlings/features/features-8.png";
+  import imageLotsOfLittleBehaviours from "$lib/assets/vpetlings/features/lots-of-little-behaviours.webp";
+  import imagePetStates from "$lib/assets/vpetlings/features/pet-states.gif";
+  import imageMakeItYours from "$lib/assets/vpetlings/features/make-it-yours.webp";
+  import imageRooms from "$lib/assets/vpetlings/features/rooms.gif";
+  import imageDisoverNewVPets from "$lib/assets/vpetlings/features/discover-new-vpets.webp";
+  import imageEggEvolutions from "$lib/assets/vpetlings/features/egg-evolutions.gif";
+  import imageTrainAndBattle from "$lib/assets/vpetlings/features/train-and-battle.webp";
+  import imageBattle from "$lib/assets/vpetlings/features/battle.webp";
 
   import Pet from "./Pet.svelte";
 
@@ -33,13 +33,13 @@
   }
 </script>
 
-<section class="space-y-8 md:space-y-16 text-base md:text-xl text-center">
+<section class="space-y-8 md:space-y-16 text-base md:text-2xl text-center">
   <div class="space-y-2 md:space-y-4">
     <img
       use:inView
-      src={imageFeature1}
+      src={imageLotsOfLittleBehaviours}
       alt="Lots of little behaviors"
-      class="reveal from-right from-left w-2/3 md:w-1/2 mx-auto object-contain is-visible pixelated"
+      class="reveal from-right from-left mx-auto object-contain is-visible pixelated h-6 md:h-8"
     />
 
     <p>
@@ -54,9 +54,9 @@
     >
       <img
         bind:this={featureImage}
-        src={imageFeature2}
+        src={imagePetStates}
         alt="Pet animations"
-        class="block max-w-full w-full rounded object-contain pixelated"
+        class="block max-w-full w-full mx-auto object-contain"
       />
 
       <Pet featureImage={featureImage} />
@@ -67,9 +67,9 @@
   <div class="space-y-2 md:space-y-4">
     <img
       use:inView
-      src={imageFeature3}
+      src={imageMakeItYours}
       alt="Make it yours"
-      class="reveal from-right from-left w-2/3 md:w-1/2 mx-auto object-contain is-visible pixelated"
+      class="reveal from-left mx-auto object-contain pixelated h-6 md:h-8"
     />
 
     <p>
@@ -80,9 +80,9 @@
 
     <img
       use:inView
-      src={imageFeature4}
+      src={imageRooms}
       alt="Rooms"
-      class="reveal from-right max-w-full rounded object-contain"
+      class="reveal from-right max-w-full w-full mx-auto object-contain"
     />
 
     <p>
@@ -94,9 +94,9 @@
   <div class="space-y-2 md:space-y-4">
     <img
       use:inView
-      src={imageFeature5}
+      src={imageDisoverNewVPets}
       alt="Discover new VPets"
-      class="reveal from-left max-w-full md:max-w-2/3 mx-auto object-contain"
+      class="reveal from-left mx-auto object-contain pixelated h-6 md:h-8"
     />
 
     <p>
@@ -108,9 +108,9 @@
 
     <img
       use:inView
-      src={imageFeature6}
+      src={imageEggEvolutions}
       alt="Eggs and stage animations"
-      class="reveal from-right max-w-full rounded object-contain"
+      class="reveal from-right max-w-full w-full mx-auto object-contain"
     />
 
     <p>
@@ -123,9 +123,9 @@
   <div class="space-y-2 md:space-y-4">
     <img
       use:inView
-      src={imageFeature7}
+      src={imageTrainAndBattle}
       alt="Train and battle"
-      class="reveal from-left max-w-full md:max-w-2/3 mx-auto h-8 object-contain"
+      class="reveal from-left mx-auto object-contain pixelated h-6 md:h-8"
     />
 
     <p>
@@ -136,9 +136,9 @@
 
     <img
       use:inView
-      src={imageFeature8}
+      src={imageBattle}
       alt="Combat menus"
-      class="reveal from-right max-w-full rounded object-contain"
+      class="reveal from-right max-w-full w-full mx-auto object-contain"
     />
   </div>
 

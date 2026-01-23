@@ -1,5 +1,5 @@
 <script lang="ts">
-	import vpetlingsLogo from '$lib/assets/vpetlings/vpetlings-logo-raw.png';
+	import vpetlingsLogo from '$lib/assets/vpetlings/vpetlings-logo-raw.webp';
 	import SteamIcon from '$lib/components/SteamIcon.svelte';
 	import { LINKS } from '$lib/config/links';
 
@@ -13,7 +13,7 @@
 			<img
 				src={vpetlingsLogo}
 				alt="VPetlings Logo"
-				class="m-2 h-10 object-contain transition-transform ease-out hover:scale-105"
+				class="m-1 h-10 object-contain transition-transform ease-out hover:scale-105"
 			/>
 		</a>
 

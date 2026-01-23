@@ -1,7 +1,6 @@
 <script lang="ts">
-  import vpetlingsLogo from "$lib/assets/vpetlings/vpetlings-logo.png";
+  import vpetlingsLogo from "$lib/assets/vpetlings/vpetlings-logo.webp";
   import capsuleImage from "$lib/assets/vpetlings/capsule.png";
-  // import Pet from "$lib/components/vpetlings/Pet.svelte";
 </script>
 
 <section class="space-y-16">
