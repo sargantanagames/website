@@ -3,7 +3,7 @@
 	import imagePetStates from '$lib/assets/vpetlings/features/pet-states.gif';
 	import imageMakeItYours from '$lib/assets/vpetlings/features/make-it-yours.webp';
 	import imageRooms from '$lib/assets/vpetlings/features/rooms.gif';
-	import imageDisoverNewVPets from '$lib/assets/vpetlings/features/discover-new-vpets.webp';
+	import imageDiscoverNewVPets from '$lib/assets/vpetlings/features/discover-new-vpets.webp';
 	import imageEggEvolutions from '$lib/assets/vpetlings/features/egg-evolutions.gif';
 	import imageTrainAndBattle from '$lib/assets/vpetlings/features/train-and-battle.webp';
 	import imageBattle from '$lib/assets/vpetlings/features/battle.webp';
@@ -55,6 +55,8 @@
 				src={imagePetStates}
 				alt="Pet animations"
 				class="mx-auto block w-full max-w-full object-contain"
+        loading="lazy"
+        decoding="async"
 			/>
 
 			<Pet {featureImage} />
@@ -79,6 +81,8 @@
 			src={imageRooms}
 			alt="Rooms"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
+      loading="lazy"
+      decoding="async"
 		/>
 
 		<p>
@@ -90,7 +94,7 @@
 	<div class="space-y-2 md:space-y-4">
 		<img
 			use:inView
-			src={imageDisoverNewVPets}
+			src={imageDiscoverNewVPets}
 			alt="Discover new VPets"
 			class="reveal from-left pixelated mx-auto h-6 object-contain md:h-8"
 		/>
@@ -106,6 +110,8 @@
 			src={imageEggEvolutions}
 			alt="Eggs and stage animations"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
+      loading="lazy"
+      decoding="async"
 		/>
 
 		<p>
@@ -133,6 +139,8 @@
 			src={imageBattle}
 			alt="Combat menus"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
+      loading="lazy"
+      decoding="async"
 		/>
 	</div>
 </section>

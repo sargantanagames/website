@@ -85,7 +85,7 @@
 		<span
       class="
 				absolute top-1/2 -translate-y-1/2
-				text-4xl font-bold text-text
+				md:text-4xl text-2xl font-bold text-text
 				opacity-60 transition
 				group-hover:opacity-100
 				group-active:opacity-100
@@ -105,6 +105,8 @@
       src={images[index]}
       alt="VPetlings gameplay screenshot"
       class="w-full rounded border-2 border-text object-contain"
+      loading="lazy"
+      decoding="async"
     />
 
     {@render arrowZone({
@@ -122,21 +124,26 @@
     })}
   </div>
 
-  <div class="mt-4 flex w-full justify-center gap-2">
+  <div class="mt-4 flex w-full justify-center md:gap-2 gap-1">
     {#each images as _, i}
       <button
         aria-label={`Select image ${i + 1}`}
         onclick={() => {
-					index = i;
-					resetInterval();
-				}}
+				index = i;
+				resetInterval();
+			}}
+        class="group relative flex h-5 w-5 items-center justify-center cursor-pointer"
+      >
+			<span
         class="
-					h-3 w-3 cursor-pointer border-2 border-text
-					transition ease-out hover:-rotate-45
+					block h-3 w-3 border-2 border-text
+					transition ease-out group-hover:-rotate-45
 					md:h-4 md:w-4
 					{i === index ? '!rotate-45 bg-secondary' : 'bg-accent-dark'}
 				"
       />
+      </button>
     {/each}
   </div>
+
 </section>
