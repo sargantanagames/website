@@ -54,17 +54,14 @@
 		z-index: 1;
 	}
 
-	.bg-pattern::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		background-position: center top;
-		background-image: url('/src/lib/assets/background.webp');
-		background-repeat: repeat-y;
-		background-size: 1989px 1608px;
-	}
+  .bg-pattern {
+      background-image: url('/src/lib/assets/background.png');
+      background-repeat: repeat-y;
+      background-position: center top;
+      background-size: 2040px 1608px;
+
+      image-rendering: pixelated;
+      min-height: 100vh;
+  }
+
 </style>

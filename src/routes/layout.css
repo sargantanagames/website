@@ -4,11 +4,11 @@
 @import 'tailwindcss/utilities'; /* components + utilities */
 
 @theme {
-	--color-bg: #fbdf84;
+	--color-bg: #fde17c;
 	--color-text: #3b2f29;
 	--color-accent: #ffe6ad;
-	--color-accent-dark: #fb9d67;
-	--color-accent-darker: #db624d;
+	--color-accent-dark: #fa9d64;
+	--color-accent-darker: #da4e3f;
 	--color-secondary: #2f3f51;
 	--color-whitish: #ffffee;
 }

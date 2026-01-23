@@ -1,6 +1,6 @@
 <script lang="ts">
 	import diegoPhoto from '$lib/assets/diego.jpeg';
-	import gerardPhoto from '$lib/assets/gerard.jpeg';
+	import gerardPhoto from '$lib/assets/gerard.png';
 </script>
 
 <section class="mx-auto my-24 max-w-4xl space-y-16 text-center">
@@ -26,7 +26,7 @@
             absolute -bottom-3 left-1/2
             -translate-x-1/2
             rounded border-2 border-text
-            bg-accent
+            bg-bg
             px-3
             text-xl
             whitespace-nowrap
@@ -58,7 +58,7 @@
             absolute -bottom-3 left-1/2
             -translate-x-1/2
             rounded border-2 border-text
-            bg-accent
+            bg-bg
             px-2
             text-xl
             whitespace-nowrap
