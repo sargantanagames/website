@@ -17,7 +17,7 @@
 	font-family: 'Jersey 10', sans-serif;
 }
 
-body {
+html, body {
     overflow-x: hidden;
 }
 

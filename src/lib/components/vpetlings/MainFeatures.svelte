@@ -50,7 +50,7 @@
 
     <div
       use:inView
-      class="reveal from-right w-full inline-block z-50"
+      class="reveal from-right w-full z-50"
     >
       <img
         bind:this={featureImage}

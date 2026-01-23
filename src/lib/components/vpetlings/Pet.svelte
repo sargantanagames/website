@@ -4,12 +4,11 @@
   import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
   import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
 
-  // ⬇️ MUST be nullable
   export let featureImage: HTMLImageElement | null = null;
 
   const BASE_SPEED = 0.0003;
   const IDLE_DURATION = 1000;
-  const IDLE_LOOPS = 2;
+  const IDLE_LOOPS = 3;
   const MOUSE_IDLE_RADIUS = 120;
 
   const SPAWN_X = 0.09;
@@ -28,6 +27,10 @@
 
   let mouseX = 0;
   let mouseY = 0;
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+  let mouseTravel = 0;
+
   let lastTime = 0;
 
   let facing: 'left' | 'right' = 'left';
@@ -36,8 +39,24 @@
   let petSize = 144;
 
   function handleMouseMove(e: MouseEvent) {
+    if (lastMouseX !== 0 || lastMouseY !== 0) {
+      mouseTravel += Math.hypot(
+        e.clientX - lastMouseX,
+        e.clientY - lastMouseY
+      );
+    }
+
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+
     mouseX = e.clientX;
     mouseY = e.clientY;
+
+    if (isActive && mouseTravel >= petSize * 2) {
+      mouseTravel = 0;
+      idleElapsed = 0;
+      pickTarget();
+    }
   }
 
   function spawnFromImage(nx: number, ny: number) {
@@ -53,6 +72,10 @@
     targetY = y;
 
     petSize = imageRect.width * 0.17;
+
+    mouseTravel = 0;
+    lastMouseX = 0;
+    lastMouseY = 0;
   }
 
   function isMouseNear() {
@@ -62,7 +85,7 @@
     const petScreenX = rect.left + x;
     const petScreenY = rect.top + y;
 
-    return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < MOUSE_IDLE_RADIUS;
+    return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < petSize * 3;
   }
 
   function pickTarget() {
@@ -214,7 +237,6 @@
 
     waitForAnchor();
   });
-
 </script>
 
 <div
