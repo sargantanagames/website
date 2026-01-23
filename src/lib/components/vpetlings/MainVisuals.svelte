@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy } from "svelte";
 
-  import screenshot1 from '$lib/assets/vpetlings/screenshots/screenshot_1.webp';
-  import screenshot2 from '$lib/assets/vpetlings/screenshots/screenshot_2.webp';
-  import screenshot3 from '$lib/assets/vpetlings/screenshots/screenshot_3.webp';
-  import screenshot4 from '$lib/assets/vpetlings/screenshots/screenshot_4.webp';
-  import screenshot5 from '$lib/assets/vpetlings/screenshots/screenshot_5.webp';
-  import screenshot6 from '$lib/assets/vpetlings/screenshots/screenshot_6.webp';
-  import screenshot7 from '$lib/assets/vpetlings/screenshots/screenshot_7.webp';
-  import screenshot8 from '$lib/assets/vpetlings/screenshots/screenshot_8.webp';
+  import screenshot1 from "$lib/assets/vpetlings/screenshots/screenshot_1.webp";
+  import screenshot2 from "$lib/assets/vpetlings/screenshots/screenshot_2.webp";
+  import screenshot3 from "$lib/assets/vpetlings/screenshots/screenshot_3.webp";
+  import screenshot4 from "$lib/assets/vpetlings/screenshots/screenshot_4.webp";
+  import screenshot5 from "$lib/assets/vpetlings/screenshots/screenshot_5.webp";
+  import screenshot6 from "$lib/assets/vpetlings/screenshots/screenshot_6.webp";
+  import screenshot7 from "$lib/assets/vpetlings/screenshots/screenshot_7.webp";
+  import screenshot8 from "$lib/assets/vpetlings/screenshots/screenshot_8.webp";
 
   const images = [
     screenshot1,
@@ -22,7 +22,9 @@
   ];
 
   let index = 0;
-  let interval: number;
+  let interval: number | undefined;
+  let hasStarted = false;
+  let container: HTMLElement;
 
   function next() {
     index = (index + 1) % images.length;
@@ -32,19 +34,41 @@
     index = (index - 1 + images.length) % images.length;
   }
 
+  function startInterval() {
+    if (interval) return;
+    interval = window.setInterval(next, 3000);
+  }
+
   function resetInterval() {
+    if (!hasStarted) return;
     clearInterval(interval);
     interval = window.setInterval(next, 3000);
   }
 
   onMount(() => {
-    interval = window.setInterval(next, 3000);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          hasStarted = true;
+          startInterval();
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.25 // user must see at least 25% of the carousel
+      }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
   });
 
   onDestroy(() => {
     clearInterval(interval);
   });
 </script>
+
 
 {#snippet arrowZone({ side, label, onClick, symbol })}
   <div
@@ -74,7 +98,9 @@
 {/snippet}
 
 <section class="w-full">
-  <div class="relative mx-auto w-full md:w-5/6">
+  <div bind:this={container}
+       class="relative mx-auto w-full md:w-5/6"
+  >
     <img
       src={images[index]}
       alt="VPetlings gameplay screenshot"
