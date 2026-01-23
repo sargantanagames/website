@@ -49,7 +49,7 @@
 		mouseX = e.clientX;
 		mouseY = e.clientY;
 
-		if (isActive && mouseTravel >= petSize * 2) {
+		if (isActive && mouseTravel >= petSize * 4) {
 			mouseTravel = 0;
 			idleElapsed = 0;
 			pickTarget();
