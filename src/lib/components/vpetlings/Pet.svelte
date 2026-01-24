@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 
 	import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
 	import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
 
-	export let featureImage: HTMLImageElement | null = null;
+	const { featureImage } = $props<{
+		featureImage: HTMLImageElement | null;
+	}>();
 
 	const BASE_SPEED = 0.0003;
 	const IDLE_DURATION = 1000;
@@ -14,40 +16,46 @@
 	const SPAWN_X = 0.09;
 	const SPAWN_Y = 0.48;
 
+	/* ───────────────── DOM refs ───────────────── */
+
 	let container: HTMLDivElement | null = null;
 	let raf: number;
 
-	let x = -10000;
-	let y = -10000;
-	let targetX = 0;
-	let targetY = 0;
+	let x = $state(-10000);
+	let y = $state(-10000);
+	let targetX = $state(0);
+	let targetY = $state(0);
 
-	let state: 'idle' | 'walk' = 'idle';
-	let idleElapsed = 0;
+	let state = $state<'idle' | 'walk'>('idle');
+	let idleElapsed = $state(0);
 
-	let mouseX = 0;
-	let mouseY = 0;
+	let mouseX = $state(0);
+	let mouseY = $state(0);
 	let lastMouseX = 0;
 	let lastMouseY = 0;
-	let mouseTravel = 0;
+	let mouseTravel = $state(0);
 
 	let lastTime = 0;
+	let facing = $state<'left' | 'right'>('left');
 
-	let facing: 'left' | 'right' = 'left';
+	let isActive = $state(false);
+	let firstActivation = true;
 
-	let isActive = false;
-  let firstActivation = true;
+	let imageWidth = $state(0);
 
-  let petSize = 144;
+	const petSize = $derived(imageWidth > 0 ? imageWidth * 0.17 : 144);
 
-	function handleMouseMove(e: MouseEvent) {
+
+	function handleMouseMove(e: MouseEvent): void {
 		if (lastMouseX !== 0 || lastMouseY !== 0) {
-			mouseTravel += Math.hypot(e.clientX - lastMouseX, e.clientY - lastMouseY);
+			mouseTravel += Math.hypot(
+				e.clientX - lastMouseX,
+				e.clientY - lastMouseY
+			);
 		}
 
 		lastMouseX = e.clientX;
 		lastMouseY = e.clientY;
-
 		mouseX = e.clientX;
 		mouseY = e.clientY;
 
@@ -58,11 +66,13 @@
 		}
 	}
 
-	function spawnFromImage(nx: number, ny: number) {
+	function spawnFromImage(nx: number, ny: number): void {
 		if (!featureImage || !container) return;
 
 		const imageRect = featureImage.getBoundingClientRect();
 		const containerRect = container.getBoundingClientRect();
+
+		imageWidth = imageRect.width;
 
 		x = imageRect.left + imageRect.width * nx - containerRect.left;
 		y = imageRect.top + imageRect.height * ny - containerRect.top;
@@ -70,28 +80,28 @@
 		targetX = x;
 		targetY = y;
 
-		petSize = imageRect.width * 0.17;
-
 		mouseTravel = 0;
 		lastMouseX = 0;
 		lastMouseY = 0;
 	}
 
-	function isMouseNear() {
+	function isMouseNear(): boolean {
 		if (!container) return false;
 
 		const rect = container.getBoundingClientRect();
 		const petScreenX = rect.left + x;
 		const petScreenY = rect.top + y;
 
-		return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < petSize * 3;
+		return Math.hypot(
+			mouseX - petScreenX,
+			mouseY - petScreenY
+		) < petSize * 3;
 	}
 
-	function pickTarget() {
+	function pickTarget(): void {
 		if (!container) return;
 
 		const rect = container.getBoundingClientRect();
-
 		if (rect.width === 0 || rect.height === 0) {
 			state = 'idle';
 			return;
@@ -105,50 +115,46 @@
 		const originX = mouseX || rect.left + rect.width / 2;
 		const originY = mouseY || rect.top + rect.height / 2;
 
-		const radius = MOUSE_IDLE_RADIUS;
 		const angle = Math.random() * Math.PI * 2;
-		const distance = Math.random() * radius;
+		const distance = Math.random() * MOUSE_IDLE_RADIUS;
 
 		let tx = originX + Math.cos(angle) * distance - rect.left;
 		let ty = originY + Math.sin(angle) * distance - rect.top;
 
-		tx = Math.min(maxX, Math.max(minX, tx));
-		ty = Math.min(maxY, Math.max(minY, ty));
-
-		targetX = tx;
-		targetY = ty;
+		targetX = Math.min(maxX, Math.max(minX, tx));
+		targetY = Math.min(maxY, Math.max(minY, ty));
 
 		state = 'walk';
 	}
 
-	function loop(time: number) {
-		raf = requestAnimationFrame(loop);
+	/* ───────────────── animation loop ───────────────── */
 
+	function loop(time: number): void {
+		raf = requestAnimationFrame(loop);
 		if (!isActive || !container) return;
 
 		const dt = time - lastTime;
 		lastTime = time;
 
-    if (state === 'idle') {
-      if (isMouseNear()) {
-        idleElapsed = 0;
-      } else {
-        idleElapsed += dt;
+		if (state === 'idle') {
+			if (isMouseNear()) {
+				idleElapsed = 0;
+			} else {
+				idleElapsed += dt;
 
-        const effectiveIdle =
-          IDLE_DURATION *
-          (firstActivation ? IDLE_LOOPS / 4 : IDLE_LOOPS);
+				const effectiveIdle =
+					IDLE_DURATION *
+					(firstActivation ? IDLE_LOOPS / 4 : IDLE_LOOPS);
 
-        if (idleElapsed >= effectiveIdle) {
-          idleElapsed = 0;
-          firstActivation = false;
-          pickTarget();
-        }
-      }
-    }
+				if (idleElapsed >= effectiveIdle) {
+					idleElapsed = 0;
+					firstActivation = false;
+					pickTarget();
+				}
+			}
+		}
 
-
-    if (state === 'walk') {
+		if (state === 'walk') {
 			const dx = targetX - x;
 			const dy = targetY - y;
 			const dist = Math.hypot(dx, dy);
@@ -164,8 +170,8 @@
 				idleElapsed = 0;
 			} else {
 				const rect = container.getBoundingClientRect();
-				const viewportScale = Math.min(rect.width, rect.height);
-				const speed = BASE_SPEED * viewportScale;
+				const speed =
+					BASE_SPEED * Math.min(rect.width, rect.height);
 
 				x += (dx / dist) * speed * dt;
 				y += (dy / dist) * speed * dt;
@@ -173,25 +179,21 @@
 		}
 	}
 
-	function updateContainerHeight() {
-		if (!container || !isActive) return;
+	/* ───────────────── lifecycle ───────────────── */
 
-		container.style.height = '0px';
+	function updateContainerHeight(): void {
+		if (!container || !isActive) return;
 		container.style.height = `${document.body.scrollHeight}px`;
 	}
 
-	function handleResize() {
-		spawnFromImage(SPAWN_X, SPAWN_Y);
+	function handleResize(): void {
 		updateContainerHeight();
 	}
 
-	function reparentToWorld() {
+	function reparentToWorld(): void {
 		if (!container) return;
-
 		const world = container.parentElement?.parentElement;
-		if (!world) return;
-
-		world.appendChild(container);
+		if (world) world.appendChild(container);
 	}
 
 	onMount(() => {
@@ -199,43 +201,35 @@
 			if (container && featureImage) {
 				spawnFromImage(SPAWN_X, SPAWN_Y);
 
-				const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
+				const revealEl =
+					featureImage.closest('.reveal') as HTMLElement | null;
 
 				const observer = new IntersectionObserver(
 					([entry]) => {
 						if (entry.isIntersecting && !isActive && revealEl) {
-							const onDone = (e: TransitionEvent) => {
-								if (e.target !== revealEl) return;
-
-								revealEl.removeEventListener('transitionend', onDone);
-
-								isActive = true;
-								lastTime = performance.now();
-
-								reparentToWorld();
-								spawnFromImage(SPAWN_X, SPAWN_Y);
-								updateContainerHeight();
-							};
-
-							revealEl.addEventListener('transitionend', onDone, { once: true });
+							revealEl.addEventListener(
+								'transitionend',
+								(e) => {
+									if (e.target !== revealEl) return;
+									isActive = true;
+									lastTime = performance.now();
+									reparentToWorld();
+									spawnFromImage(SPAWN_X, SPAWN_Y);
+									updateContainerHeight();
+								},
+								{ once: true }
+							);
 						}
 					},
 					{ threshold: 1 }
 				);
 
 				observer.observe(featureImage);
-
 				window.addEventListener('pointermove', handleMouseMove);
 				window.addEventListener('resize', handleResize);
 
 				raf = requestAnimationFrame(loop);
-
-				return () => {
-					observer.disconnect();
-					window.removeEventListener('pointermove', handleMouseMove);
-					window.removeEventListener('resize', handleResize);
-					cancelAnimationFrame(raf);
-				};
+				return;
 			}
 
 			requestAnimationFrame(waitForAnchor);
@@ -258,18 +252,21 @@
 	});
 </script>
 
-<div bind:this={container} class="pointer-events-none absolute top-0 left-0 z-50 w-full">
+<div
+	bind:this={container}
+	class="pointer-events-none absolute top-0 left-0 z-50 w-full"
+>
 	<img
 		src={state === 'idle' ? idleGif : walkGif}
 		alt="Virtual pet"
 		class="pointer-events-none absolute select-none"
 		style="
-      width: {petSize}px;
-      height: {petSize}px;
-      transform:
-        translate({x}px, {y}px)
-        translate(-50%, -50%)
-        scaleX({facing === 'left' ? -1 : 1});
-    "
+			width: {petSize}px;
+			height: {petSize}px;
+			transform:
+				translate({x}px, {y}px)
+				translate(-50%, -50%)
+				scaleX({facing === 'left' ? -1 : 1});
+		"
 	/>
 </div>
