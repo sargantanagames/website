@@ -22,6 +22,10 @@ body {
 	overflow-x: hidden;
 }
 
+body {
+    overflow-y: hidden;
+}
+
 .underline-center {
 	position: relative;
 	display: inline-block;

@@ -127,8 +127,6 @@
 		state = 'walk';
 	}
 
-	/* ───────────────── animation loop ───────────────── */
-
 	function loop(time: number): void {
 		raf = requestAnimationFrame(loop);
 		if (!isActive || !container) return;
@@ -178,8 +176,6 @@
 			}
 		}
 	}
-
-	/* ───────────────── lifecycle ───────────────── */
 
 	function updateContainerHeight(): void {
 		if (!container || !isActive) return;
