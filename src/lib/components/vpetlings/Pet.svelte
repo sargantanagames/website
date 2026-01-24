@@ -177,6 +177,7 @@
 
 	function updateContainerHeight(): void {
 		if (!container || !isActive) return;
+		console.log(`From height: ${container.getBoundingClientRect().height}px to ${document.body.scrollHeight}px`);
 		container.style.height = `${document.body.scrollHeight}px`;
 	}
 
