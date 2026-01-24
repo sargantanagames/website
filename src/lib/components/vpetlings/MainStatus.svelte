@@ -25,7 +25,7 @@
 
 	<div>
 		<iframe
-			src="https://store.steampowered.com/widget/3799160/?t=Wishlist%20on%20Steam!"
+			src="https://store.steampowered.com/widget/3799160/"
 			frameborder="0"
 			width="646"
 			height="190"
@@ -44,37 +44,37 @@
 </section>
 
 <style>
-	.build-dots span {
-		display: inline-block;
-		animation: dot-jump 1s infinite ease-in-out both;
-	}
+    .build-dots span {
+        display: inline-block;
+        animation: dot-jump 1s infinite ease-in-out both;
+    }
 
-	.build-dots span:nth-child(1) {
-		animation-delay: 0s;
-	}
+    .build-dots span:nth-child(1) {
+        animation-delay: 0s;
+    }
 
-	.build-dots span:nth-child(2) {
-		animation-delay: 0.1s;
-	}
+    .build-dots span:nth-child(2) {
+        animation-delay: 0.1s;
+    }
 
-	.build-dots span:nth-child(3) {
-		animation-delay: 0.2s;
-	}
+    .build-dots span:nth-child(3) {
+        animation-delay: 0.2s;
+    }
 
-	@keyframes dot-jump {
-		0%,
-		80%,
-		100% {
-			transform: translateY(0);
-		}
-		40% {
-			transform: translateY(-2px);
-		}
-	}
+    @keyframes dot-jump {
+        0%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-2px);
+        }
+    }
 
-	@media (prefers-reduced-motion: reduce) {
-		.build-dots span {
-			animation: none;
-		}
-	}
+    @media (prefers-reduced-motion: reduce) {
+        .build-dots span {
+            animation: none;
+        }
+    }
 </style>
