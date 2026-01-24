@@ -24,7 +24,7 @@
 	let targetX = $state(0);
 	let targetY = $state(0);
 
-	let state = $state<'idle' | 'walk'>('idle');
+	let state = $state<'idle' | 'walk' | 'petting'>('idle');
 	let idleElapsed = $state(0);
 
 	let mouseX = $state(0);
@@ -43,6 +43,18 @@
 
 	const petSize = $derived(imageWidth > 0 ? imageWidth * 0.17 : 144);
 
+	const PET_PET_DURATION = 900;
+
+	const pettingGifSrc = walkGif;
+
+	function handleClick(e: MouseEvent): void {
+		state = 'petting';
+		idleElapsed = 0;
+
+		setTimeout(() => {
+			state = 'idle';
+		}, PET_PET_DURATION);
+	}
 
 	function handleMouseMove(e: MouseEvent): void {
 		if (lastMouseX !== 0 || lastMouseY !== 0) {
@@ -97,7 +109,7 @@
 	}
 
 	function pickTarget(): void {
-		if (!container) return;
+		if (!container || state == 'petting') return;
 
 		const rect = container.getBoundingClientRect();
 		if (rect.width === 0 || rect.height === 0) {
@@ -252,9 +264,10 @@
 	class="pointer-events-none absolute top-0 left-0 z-50 w-full"
 >
 	<img
-		src={state === 'idle' ? idleGif : walkGif}
+		src={state === 'petting' ? pettingGifSrc : state === 'idle' ? idleGif : walkGif}
 		alt="Virtual pet"
-		class="pointer-events-none absolute select-none"
+		class="pointer-events-auto absolute select-none cursor-pointer"
+		on:click={handleClick}
 		style="
 			width: {petSize}px;
 			height: {petSize}px;
