@@ -16,8 +16,6 @@
 	const SPAWN_X = 0.09;
 	const SPAWN_Y = 0.48;
 
-	/* ───────────────── DOM refs ───────────────── */
-
 	let container: HTMLDivElement | null = null;
 	let raf: number;
 
