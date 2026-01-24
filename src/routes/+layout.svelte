@@ -59,8 +59,6 @@
       background-repeat: repeat-y;
       background-position: center top;
       background-size: 2040px 1608px;
-
-      image-rendering: pixelated;
       min-height: 100vh;
   }
 
