@@ -44,6 +44,12 @@
 	const petSize = $derived(imageWidth > 0 ? imageWidth * 0.17 : 144);
 
 	const PET_PET_DURATION = 900;
+	const DEFAULT_ARRIVAL_THRESHOLD = 10;
+	const SMOOTHING = 0.2;
+
+	let currentDirection = { x: 0, y: 0 };
+	let currentArrivalThreshold = DEFAULT_ARRIVAL_THRESHOLD;
+
 
 	const pettingGifSrc = walkGif;
 
@@ -131,10 +137,25 @@
 		let tx = originX + Math.cos(angle) * distance - rect.left;
 		let ty = originY + Math.sin(angle) * distance - rect.top;
 
-		targetX = Math.min(maxX, Math.max(minX, tx));
-		targetY = Math.min(maxY, Math.max(minY, ty));
+		tx = Math.min(maxX, Math.max(minX, tx));
+		ty = Math.min(maxY, Math.max(minY, ty));
 
+		setTarget(tx, ty);
 		state = 'walk';
+	}
+
+	function setTarget(tx: number, ty: number, arrivalOverride: number = -1) {
+		targetX = tx;
+		targetY = ty;
+		currentArrivalThreshold =
+			arrivalOverride >= 0 ? arrivalOverride : DEFAULT_ARRIVAL_THRESHOLD;
+		if (Math.hypot(currentDirection.x, currentDirection.y) < 0.001) {
+			const dx = targetX - x;
+			const dy = targetY - y;
+			const d = Math.hypot(dx, dy) || 1;
+			currentDirection.x = dx / d;
+			currentDirection.y = dy / d;
+		}
 	}
 
 	function loop(time: number): void {
@@ -145,14 +166,14 @@
 		lastTime = time;
 
 		if (state === 'idle') {
-			if (isMouseNear()) {
+			if (!firstActivation && isMouseNear()) {
 				idleElapsed = 0;
 			} else {
 				idleElapsed += dt;
 
 				const effectiveIdle =
 					IDLE_DURATION *
-					(firstActivation ? IDLE_LOOPS / 4 : IDLE_LOOPS);
+					(firstActivation ? 0 : IDLE_LOOPS);
 
 				if (idleElapsed >= effectiveIdle) {
 					idleElapsed = 0;
@@ -167,25 +188,77 @@
 			const dy = targetY - y;
 			const dist = Math.hypot(dx, dy);
 
-			if (Math.abs(dx) > 1) {
-				facing = dx < 0 ? 'left' : 'right';
+			let desiredX = 0;
+			let desiredY = 0;
+			if (dist > 0.0001) {
+				desiredX = dx / dist;
+				desiredY = dy / dist;
 			}
 
-			if (dist < 10) {
+			currentDirection.x += (desiredX - currentDirection.x) * SMOOTHING;
+			currentDirection.y += (desiredY - currentDirection.y) * SMOOTHING;
+
+			const cdLen = Math.hypot(currentDirection.x, currentDirection.y) || 1;
+			currentDirection.x /= cdLen;
+			currentDirection.y /= cdLen;
+
+			if (Math.abs(currentDirection.x) >= 0.01) {
+				facing = currentDirection.x < 0 ? 'left' : 'right';
+			}
+
+			const rect = container.getBoundingClientRect();
+			const speed = BASE_SPEED * Math.min(rect.width, rect.height);
+
+			x += currentDirection.x * speed * dt;
+			y += currentDirection.y * speed * dt;
+
+			if (Math.hypot(targetX - x, targetY - y) < currentArrivalThreshold) {
 				x = targetX;
 				y = targetY;
 				state = 'idle';
 				idleElapsed = 0;
+				currentDirection.x = 0;
+				currentDirection.y = 0;
 			} else {
-				const rect = container.getBoundingClientRect();
-				const speed =
-					BASE_SPEED * Math.min(rect.width, rect.height);
-
-				x += (dx / dist) * speed * dt;
-				y += (dy / dist) * speed * dt;
+				enforceBounds();
 			}
 		}
 	}
+
+	function enforceBounds(): void {
+		if (!container) return;
+
+		const rect = container.getBoundingClientRect();
+
+		const minX = 0;
+		const minY = 0;
+		const maxX = rect.width;
+		const maxY = rect.height;
+
+		let teleported = false;
+
+		if (x < minX) {
+			x = minX;
+			teleported = true;
+		} else if (x > maxX) {
+			x = maxX;
+			teleported = true;
+		}
+
+		if (y < minY) {
+			y = minY;
+			teleported = true;
+		} else if (y > maxY) {
+			y = maxY;
+			teleported = true;
+		}
+
+		if (teleported) {
+			currentDirection.x = 0;
+			currentDirection.y = 0;
+		}
+	}
+
 
 	function updateContainerHeight(): void {
 		if (!container || !isActive) return;
