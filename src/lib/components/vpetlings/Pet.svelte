@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
 	import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
@@ -242,6 +242,19 @@
 		};
 
 		waitForAnchor();
+	});
+
+	onDestroy(() => {
+		if (container && container.parentNode) {
+			container.parentNode.removeChild(container);
+		}
+
+		if (typeof window !== 'undefined') {
+			window.cancelAnimationFrame(raf);
+			window.removeEventListener('pointermove', handleMouseMove);
+			window.removeEventListener('resize', handleResize);
+		}
+
 	});
 </script>
 
