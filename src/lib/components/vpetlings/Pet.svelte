@@ -3,6 +3,7 @@
 
 	import idleGif from '$lib/assets/vpetlings/vpet-idle.gif';
 	import walkGif from '$lib/assets/vpetlings/vpet-walk.gif';
+	import petGif from '$lib/assets/vpetlings/vpet-pet.gif';
 
 	const { featureImage } = $props<{
 		featureImage: HTMLImageElement | null;
@@ -43,15 +44,13 @@
 
 	const petSize = $derived(imageWidth > 0 ? imageWidth * 0.17 : 144);
 
-	const PET_PET_DURATION = 900;
+	const PET_PET_DURATION = 1600;
 	const DEFAULT_ARRIVAL_THRESHOLD = 10;
 	const SMOOTHING = 0.2;
 
 	let currentDirection = { x: 0, y: 0 };
 	let currentArrivalThreshold = DEFAULT_ARRIVAL_THRESHOLD;
 
-
-	const pettingGifSrc = walkGif;
 
 	function handleClick(e: MouseEvent): void {
 		state = 'petting';
@@ -337,7 +336,7 @@
 	class="pointer-events-none absolute top-0 left-0 z-50 w-full"
 >
 	<img
-		src={state === 'petting' ? pettingGifSrc : state === 'idle' ? idleGif : walkGif}
+		src={state === 'petting' ? petGif : state === 'idle' ? idleGif : walkGif}
 		alt="Virtual pet"
 		class="pointer-events-auto absolute select-none cursor-pointer"
 		on:click={handleClick}
