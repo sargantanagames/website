@@ -1,0 +1,88 @@
+/* Fixes base being applied last */
+@import 'tailwindcss/theme'; /* variables */
+@import 'tailwindcss/preflight'; /* base/reset */
+@import 'tailwindcss/utilities'; /* components + utilities */
+
+@theme {
+	--color-bg: #fde17c;
+	--color-text: #3b2f29;
+	--color-accent: #ffe6ad;
+	--color-accent-dark: #fa9d64;
+	--color-accent-darker: #da4e3f;
+	--color-secondary: #2f3f51;
+	--color-whitish: #ffffee;
+}
+
+* {
+	font-family: 'Jersey 10', sans-serif;
+}
+
+html,
+body {
+	overflow-x: hidden;
+}
+
+body {
+    overflow-y: hidden;
+}
+
+.underline-center {
+	position: relative;
+	display: inline-block;
+	text-decoration: none;
+}
+
+.underline-center::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 4px;
+
+	width: 70%;
+	height: 2px;
+
+	background-color: currentColor;
+
+	transform: translateX(-50%);
+	transition: width 180ms ease-out;
+}
+
+.underline-center:hover::after {
+	width: 100%;
+}
+
+.pixelated {
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
+}
+
+/* Pixel-style scrollbar */
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-accent-dark);
+	border: 2px solid var(--color-bg);
+	border-radius: 0; /* square edges */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-accent-darker);
+}
+
+::-webkit-scrollbar-corner {
+	background-color: var(--color-bg);
+}
+
+/* Firefox (square by default) */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-accent-dark) var(--color-bg);
+}

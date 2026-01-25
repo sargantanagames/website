@@ -1,0 +1,16 @@
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="8"
+        height="12"
+        viewBox="0 0 8 12"
+        shape-rendering="crispEdges"
+>
+    <!-- Row 1 (50%) -->
+    <rect x="0" y="0" width="4" height="4" fill="#fa9d64" />
+
+    <!-- Row 2 (50%, phase-shifted) -->
+    <rect x="4" y="4" width="4" height="4" fill="#fa9d64" />
+
+    <!-- Row 3 (50%) -->
+    <rect x="0" y="8" width="4" height="4" fill="#fa9d64" />
+</svg>
