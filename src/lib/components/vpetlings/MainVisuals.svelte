@@ -78,7 +78,7 @@
 			resetInterval();
 		}}
     class="
-			group absolute top-0 h-full w-16 cursor-pointer
+			group absolute top-0 h-full w-16 cursor-pointer select-none
 			{side === 'left' ? 'left-0' : 'right-0'}
 		"
   >
