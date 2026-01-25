@@ -12,7 +12,6 @@
 	const BASE_SPEED = 0.0003;
 	const IDLE_DURATION = 1000;
 	const IDLE_LOOPS = 3;
-	const MOUSE_IDLE_RADIUS = 120;
 
 	const SPAWN_X = 0.09;
 	const SPAWN_Y = 0.48;
@@ -131,7 +130,7 @@
 		const originY = mouseY || rect.top + rect.height / 2;
 
 		const angle = Math.random() * Math.PI * 2;
-		const distance = Math.random() * MOUSE_IDLE_RADIUS;
+		const distance = petSize;
 
 		let tx = originX + Math.cos(angle) * distance - rect.left;
 		let ty = originY + Math.sin(angle) * distance - rect.top;
