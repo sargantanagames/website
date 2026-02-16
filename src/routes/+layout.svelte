@@ -3,6 +3,7 @@
 	import favicon from '$lib/assets/favicon.ico';
 	import Navbar from '$lib/components/vpetlings/Navbar.svelte';
 	import Footer from '$lib/components/vpetlings/Footer.svelte';
+	import { LINKS } from '$lib/config/links';
 
 	let { children } = $props();
 </script>
@@ -26,7 +27,7 @@
 		content="Wishlist now on Steam! Raise a cozy virtual pet that lives on your desktop. Hatch, care for, evolve, and battle your companion while you work, play, or browse."
 	/>
 	<meta property="og:image" content="/og-image.png" />
-	<meta property="og:url" content="https://vpetlings.com" />
+	<meta property="og:url" content={LINKS.base} />
 
 	<!-- Twitter / X -->
 	<meta name="twitter:card" content="summary_large_image" />
