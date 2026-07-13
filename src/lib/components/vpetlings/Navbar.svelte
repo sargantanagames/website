@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import vpetlingsLogo from '$lib/assets/vpetlings/vpetlings-logo-raw.webp';
 	import SteamIcon from '$lib/components/SteamIcon.svelte';
 	import { LINKS } from '$lib/config/links';
 
 	let mobileOpen = false;
+
+	const navLinks = [
+		{ href: '/vpetlings/about-us', label: 'About Us' },
+		{ href: '/vpetlings/press-kit', label: 'Press Kit' }
+	];
 </script>
 
 <header class="header-dither w-full bg-accent-dark text-whitish">
@@ -21,19 +27,15 @@
 
 		<!-- Desktop navigation -->
 		<div class="hidden items-center gap-6 text-2xl md:flex">
-			<a
-				href="/vpetlings/about-us"
-				class="underline-center opacity-90 transition-opacity ease-out hover:opacity-100"
-			>
-				About Us
-			</a>
-
-			<a
-				href="/vpetlings/press-kit"
-				class="underline-center opacity-90 transition-opacity ease-out hover:opacity-100"
-			>
-				Press Kit
-			</a>
+			{#each navLinks as link}
+				<a
+					href={link.href}
+					aria-current={page.url.pathname === link.href ? 'page' : undefined}
+					class="underline-center opacity-90 transition-opacity ease-out hover:opacity-100 aria-[current=page]:opacity-100"
+				>
+					{link.label}
+				</a>
+			{/each}
 		</div>
 
 		<!-- Desktop Steam button -->
@@ -70,21 +72,16 @@
 	{#if mobileOpen}
 		<div class="bg-accent-dark px-4 pb-4 text-center md:hidden">
 			<div class="flex flex-col gap-4 text-xl">
-				<a
-					href="/vpetlings/about-us"
-					class="opacity-90 transition-opacity ease-out hover:opacity-100"
-					onclick={() => (mobileOpen = false)}
-				>
-					About Us
-				</a>
-
-				<a
-					href="/vpetlings/press-kit"
-					class="opacity-90 transition-opacity ease-out hover:opacity-100"
-					onclick={() => (mobileOpen = false)}
-				>
-					Press Kit
-				</a>
+				{#each navLinks as link}
+					<a
+						href={link.href}
+						aria-current={page.url.pathname === link.href ? 'page' : undefined}
+						class="opacity-90 transition-opacity ease-out hover:opacity-100 aria-[current=page]:opacity-100"
+						onclick={() => (mobileOpen = false)}
+					>
+						{link.label}
+					</a>
+				{/each}
 
 				<div>
 					<a

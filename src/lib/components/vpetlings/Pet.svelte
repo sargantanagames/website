@@ -24,7 +24,7 @@
 	let targetX = $state(0);
 	let targetY = $state(0);
 
-	let state = $state<'idle' | 'walk' | 'petting'>('idle');
+	let petState = $state<'idle' | 'walk' | 'petting'>('idle');
 	let idleElapsed = $state(0);
 
 	let mouseX = $state(0);
@@ -61,7 +61,7 @@
 
 	function handleClick(e: MouseEvent): void {
 		void e;
-		state = 'petting';
+		petState = 'petting';
 		idleElapsed = 0;
 
 		if (petTimeout) {
@@ -69,7 +69,7 @@
 		}
 
 		petTimeout = setTimeout(() => {
-			state = 'idle';
+			petState = 'idle';
 			petTimeout = null;
 		}, PET_PET_DURATION);
 	}
@@ -147,11 +147,11 @@
 	}
 
 	function pickTarget(): void {
-		if (!container || state == 'petting') return;
+		if (!container || petState === 'petting') return;
 
 		const rect = container.getBoundingClientRect();
 		if (rect.width === 0 || rect.height === 0) {
-			state = 'idle';
+			petState = 'idle';
 			return;
 		}
 
@@ -173,7 +173,7 @@
 		ty = Math.min(maxY, Math.max(minY, ty));
 
 		setTarget(tx, ty);
-		state = 'walk';
+		petState = 'walk';
 	}
 
 	function setTarget(tx: number, ty: number, arrivalOverride: number = -1) {
@@ -196,7 +196,7 @@
 		const dt = time - lastTime;
 		lastTime = time;
 
-		if (state === 'idle') {
+		if (petState === 'idle') {
 			if (!firstActivation && isMouseNear()) {
 				idleElapsed = 0;
 			} else {
@@ -214,7 +214,7 @@
 			}
 		}
 
-		if (state === 'walk') {
+		if (petState === 'walk') {
 			const dx = targetX - x;
 			const dy = targetY - y;
 			const dist = Math.hypot(dx, dy);
@@ -246,7 +246,7 @@
 			if (Math.hypot(targetX - x, targetY - y) < currentArrivalThreshold) {
 				x = targetX;
 				y = targetY;
-				state = 'idle';
+				petState = 'idle';
 				idleElapsed = 0;
 				currentDirection.x = 0;
 				currentDirection.y = 0;
@@ -416,11 +416,11 @@
 </script>
 
 <div bind:this={container} class="pointer-events-none absolute top-0 left-0 z-50 w-full">
-	<img
-		src={state === 'petting' ? petGif : state === 'idle' ? idleGif : walkGif}
-		alt="Virtual pet"
-		class="pointer-events-auto absolute cursor-pointer select-none"
-		on:click={handleClick}
+	<button
+		type="button"
+		aria-label="Pet the virtual pet"
+		class="pointer-events-auto absolute block cursor-pointer appearance-none overflow-visible border-0 bg-transparent p-0 leading-none select-none"
+		onclick={handleClick}
 		style="
 			width: {petSize}px;
 			height: {petSize}px;
@@ -429,5 +429,12 @@
 				translate(-50%, -50%)
 				scaleX({facing === 'left' ? -1 : 1});
 		"
-	/>
+	>
+		<img
+			src={petState === 'petting' ? petGif : petState === 'idle' ? idleGif : walkGif}
+			alt=""
+			class="block h-full w-full"
+			draggable="false"
+		/>
+	</button>
 </div>

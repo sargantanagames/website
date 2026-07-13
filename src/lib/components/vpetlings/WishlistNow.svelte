@@ -1,5 +1,5 @@
 <script>
-	import { LINKS } from '$lib/config/links.ts';
+	import { LINKS } from '$lib/config/links';
 	import SteamIcon from '$lib/components/SteamIcon.svelte';
 </script>
 

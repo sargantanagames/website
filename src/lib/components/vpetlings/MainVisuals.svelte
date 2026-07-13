@@ -26,6 +26,13 @@
 	let hasStarted = false;
 	let container: HTMLElement;
 
+	type ArrowZoneProps = {
+		side: 'left' | 'right';
+		label: string;
+		onClick: () => void;
+		symbol: string;
+	};
+
 	function next() {
 		index = (index + 1) % images.length;
 	}
@@ -75,15 +82,16 @@
 	});
 </script>
 
-{#snippet arrowZone({ side, label, onClick, symbol })}
-	<div
+{#snippet arrowZone({ side, label, onClick, symbol }: ArrowZoneProps)}
+	<button
+		type="button"
 		aria-label={label}
 		onclick={() => {
 			onClick();
 			resetInterval();
 		}}
 		class="
-			group absolute top-0 h-full w-16 cursor-pointer select-none
+			group absolute top-0 h-full w-16 cursor-pointer border-0 bg-transparent p-0 select-none
 			{side === 'left' ? 'left-0' : 'right-0'}
 		"
 	>
@@ -99,7 +107,7 @@
 		>
 			{symbol}
 		</span>
-	</div>
+	</button>
 {/snippet}
 
 <section class="w-full">
@@ -144,7 +152,7 @@
 					md:h-4 md:w-4
 					{i === index ? '!rotate-45 bg-secondary' : 'bg-accent-dark'}
 				"
-				/>
+				></span>
 			</button>
 		{/each}
 	</div>

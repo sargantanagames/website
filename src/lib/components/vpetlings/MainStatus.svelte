@@ -1,5 +1,5 @@
 <script>
-	import { LINKS } from '$lib/config/links.ts';
+	import { LINKS } from '$lib/config/links';
 </script>
 
 <section class="space-y-4 text-center">
@@ -32,7 +32,7 @@
 			loading="lazy"
 			title="VPetlings Steam widget"
 			class="mx-auto max-w-full rounded"
-		/>
+		></iframe>
 	</div>
 
 	<p class="text-base">

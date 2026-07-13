@@ -1,5 +1,12 @@
 <script lang="ts">
 	import { LINKS } from '$lib/config/links';
+
+	const footerLinks = [
+		{ href: LINKS.vpetlings.steam, label: 'Steam', hoverColor: '#6b7280' },
+		{ href: LINKS.vpetlings.twitter, label: 'Twitter', hoverColor: '#22d3ee' },
+		{ href: LINKS.vpetlings.instagram, label: 'Instagram', hoverColor: '#f472b6' },
+		{ href: LINKS.vpetlings.reddit, label: 'Reddit', hoverColor: '#fb923c' }
+	];
 </script>
 
 <footer class="footer-dither w-full text-whitish">
@@ -10,41 +17,17 @@
 			</p>
 
 			<div class="flex items-center gap-12">
-				<a
-					href={LINKS.vpetlings.steam}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="
-            opacity-80 transition-all ease-out
-            hover:text-gray-500 hover:opacity-100
-          "
-				>
-					Steam
-				</a>
-
-				<a
-					href={LINKS.vpetlings.twitter}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="
-            opacity-80 transition-all ease-out
-            hover:text-cyan-400 hover:opacity-100
-          "
-				>
-					Twitter
-				</a>
-
-				<a
-					href={LINKS.vpetlings.instagram}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="
-            opacity-80 transition-all ease-out
-            hover:text-pink-400 hover:opacity-100
-          "
-				>
-					Instagram
-				</a>
+				{#each footerLinks as link}
+					<a
+						href={link.href}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="social-link opacity-80 transition-all ease-out"
+						style={`--hover-color: ${link.hoverColor}`}
+					>
+						{link.label}
+					</a>
+				{/each}
 			</div>
 
 			<a
@@ -79,5 +62,10 @@
 		background-size: 8px 12px;
 
 		pointer-events: none;
+	}
+
+	.social-link:hover {
+		color: var(--hover-color);
+		opacity: 1;
 	}
 </style>
