@@ -46,6 +46,12 @@
 	}
 
 	onMount(() => {
+		for (const src of images) {
+			const image = new Image();
+			image.src = src;
+			void image.decode?.().catch(() => {});
+		}
+
 		const observer = new IntersectionObserver(
 			([entry]) => {
 				if (entry.isIntersecting && !hasStarted) {
