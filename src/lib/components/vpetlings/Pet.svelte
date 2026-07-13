@@ -9,7 +9,7 @@
 		featureImage: HTMLImageElement | null;
 	}>();
 
-	const BASE_SPEED = 0.0003;
+	const BASE_SPEED = 0.00022;
 	const IDLE_DURATION = 1000;
 	const IDLE_LOOPS = 3;
 
@@ -32,35 +32,53 @@
 	let lastMouseX = 0;
 	let lastMouseY = 0;
 	let mouseTravel = $state(0);
+	let lastScrollY = 0;
+	let scrollTravel = $state(0);
 
 	let lastTime = 0;
 	let facing = $state<'left' | 'right'>('left');
 
 	let isActive = $state(false);
 	let firstActivation = true;
+	let hasMousePosition = $state(false);
+	let isFullyVisible = false;
+	let isRevealComplete = false;
 
 	let imageWidth = $state(0);
+	let petTimeout: ReturnType<typeof setTimeout> | null = null;
 
 	const petSize = $derived(imageWidth > 0 ? imageWidth * 0.17 : 144);
 
 	const PET_PET_DURATION = 1600;
 	const DEFAULT_ARRIVAL_THRESHOLD = 10;
 	const SMOOTHING = 0.2;
+	const ACTIVATION_VISIBILITY_RATIO = 0.98;
 
 	let currentDirection = { x: 0, y: 0 };
 	let currentArrivalThreshold = DEFAULT_ARRIVAL_THRESHOLD;
+	let resizeObserver: ResizeObserver | null = null;
+	let revealObserver: MutationObserver | null = null;
 
 
 	function handleClick(e: MouseEvent): void {
+		void e;
 		state = 'petting';
 		idleElapsed = 0;
 
-		setTimeout(() => {
+		if (petTimeout) {
+			clearTimeout(petTimeout);
+		}
+
+		petTimeout = setTimeout(() => {
 			state = 'idle';
+			petTimeout = null;
 		}, PET_PET_DURATION);
 	}
 
 	function handleMouseMove(e: MouseEvent): void {
+		hasMousePosition = true;
+		activatePet();
+
 		if (lastMouseX !== 0 || lastMouseY !== 0) {
 			mouseTravel += Math.hypot(
 				e.clientX - lastMouseX,
@@ -73,9 +91,31 @@
 		mouseX = e.clientX;
 		mouseY = e.clientY;
 
-		if (isActive && mouseTravel >= petSize * 3) {
-			mouseTravel = 0;
-			idleElapsed = 0;
+		maybeReactToActivity();
+	}
+
+	function handleScroll(): void {
+		const currentScrollY = window.scrollY;
+		scrollTravel += Math.abs(currentScrollY - lastScrollY);
+		lastScrollY = currentScrollY;
+
+		if (!isActive) return;
+
+		idleElapsed = 0;
+
+		maybeReactToActivity();
+	}
+
+	function maybeReactToActivity(): void {
+		if (!isActive) return;
+
+		if (mouseTravel + scrollTravel < petSize * 3) return;
+
+		mouseTravel = 0;
+		scrollTravel = 0;
+		idleElapsed = 0;
+
+		if (!isMouseNear()) {
 			pickTarget();
 		}
 	}
@@ -95,6 +135,7 @@
 		targetY = y;
 
 		mouseTravel = 0;
+		scrollTravel = 0;
 		lastMouseX = 0;
 		lastMouseY = 0;
 	}
@@ -173,13 +214,15 @@
 					IDLE_DURATION *
 					(firstActivation ? 0 : IDLE_LOOPS);
 
-				if (idleElapsed >= effectiveIdle) {
-					idleElapsed = 0;
-					firstActivation = false;
-					pickTarget();
+					if (idleElapsed >= effectiveIdle) {
+						idleElapsed = 0;
+						firstActivation = false;
+						if (!isMouseNear()) {
+							pickTarget();
+						}
+					}
 				}
 			}
-		}
 
 		if (state === 'walk') {
 			const dx = targetX - x;
@@ -260,12 +303,14 @@
 
 	function updateContainerHeight(): void {
 		if (!container || !isActive) return;
-		console.log(`From height: ${container.getBoundingClientRect().height}px to ${document.body.scrollHeight}px`);
 		container.style.height = `${document.body.scrollHeight}px`;
 	}
 
 	function handleResize(): void {
 		updateContainerHeight();
+		if (featureImage) {
+			spawnFromImage(SPAWN_X, SPAWN_Y);
+		}
 	}
 
 	function reparentToWorld(): void {
@@ -274,7 +319,44 @@
 		if (world) world.appendChild(container);
 	}
 
+	function activatePet(): void {
+		if (isActive || !hasMousePosition || !isFullyVisible || !isRevealComplete) return;
+
+		isActive = true;
+		lastTime = performance.now();
+		reparentToWorld();
+		spawnFromImage(SPAWN_X, SPAWN_Y);
+		updateContainerHeight();
+	}
+
+	function trackRevealCompletion(revealEl: HTMLElement): void {
+		if (!revealEl.classList.contains('is-visible')) return;
+
+		const animations = revealEl
+			.getAnimations()
+			.filter((animation) => animation.playState !== 'finished');
+
+		if (animations.length === 0) {
+			isRevealComplete = true;
+			activatePet();
+			return;
+		}
+
+		void Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+			isRevealComplete = true;
+			activatePet();
+		});
+	}
+
 	onMount(() => {
+		lastScrollY = window.scrollY;
+
+		for (const src of [idleGif, walkGif, petGif]) {
+			const image = new Image();
+			image.src = src;
+			void image.decode?.().catch(() => {});
+		}
+
 		const waitForAnchor = () => {
 			if (container && featureImage) {
 				spawnFromImage(SPAWN_X, SPAWN_Y);
@@ -282,28 +364,36 @@
 				const revealEl =
 					featureImage.closest('.reveal') as HTMLElement | null;
 
-				const observer = new IntersectionObserver(
-					([entry]) => {
-						if (entry.isIntersecting && !isActive && revealEl) {
-							revealEl.addEventListener(
-								'transitionend',
-								(e) => {
-									if (e.target !== revealEl) return;
-									isActive = true;
-									lastTime = performance.now();
-									reparentToWorld();
-									spawnFromImage(SPAWN_X, SPAWN_Y);
-									updateContainerHeight();
-								},
-								{ once: true }
-							);
-						}
-					},
-					{ threshold: 1 }
-				);
+				if (revealEl) {
+					trackRevealCompletion(revealEl);
+					revealObserver = new MutationObserver(() => {
+						trackRevealCompletion(revealEl);
+					});
+					revealObserver.observe(revealEl, {
+						attributes: true,
+						attributeFilter: ['class']
+					});
+				}
+
+					const observer = new IntersectionObserver(
+						([entry]) => {
+							isFullyVisible = entry.intersectionRatio >= ACTIVATION_VISIBILITY_RATIO;
+
+							if (isFullyVisible) {
+								activatePet();
+							}
+						},
+						{ threshold: [ACTIVATION_VISIBILITY_RATIO] }
+					);
 
 				observer.observe(featureImage);
+				resizeObserver = new ResizeObserver(() => {
+					spawnFromImage(SPAWN_X, SPAWN_Y);
+					updateContainerHeight();
+				});
+				resizeObserver.observe(featureImage);
 				window.addEventListener('pointermove', handleMouseMove);
+				window.addEventListener('scroll', handleScroll, { passive: true });
 				window.addEventListener('resize', handleResize);
 
 				raf = requestAnimationFrame(loop);
@@ -324,9 +414,16 @@
 		if (typeof window !== 'undefined') {
 			window.cancelAnimationFrame(raf);
 			window.removeEventListener('pointermove', handleMouseMove);
+			window.removeEventListener('scroll', handleScroll);
 			window.removeEventListener('resize', handleResize);
 		}
 
+		resizeObserver?.disconnect();
+		revealObserver?.disconnect();
+
+		if (petTimeout) {
+			clearTimeout(petTimeout);
+		}
 	});
 </script>
 
