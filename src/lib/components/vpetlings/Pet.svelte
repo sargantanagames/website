@@ -59,7 +59,6 @@
 	let resizeObserver: ResizeObserver | null = null;
 	let revealObserver: MutationObserver | null = null;
 
-
 	function handleClick(e: MouseEvent): void {
 		void e;
 		state = 'petting';
@@ -80,10 +79,7 @@
 		activatePet();
 
 		if (lastMouseX !== 0 || lastMouseY !== 0) {
-			mouseTravel += Math.hypot(
-				e.clientX - lastMouseX,
-				e.clientY - lastMouseY
-			);
+			mouseTravel += Math.hypot(e.clientX - lastMouseX, e.clientY - lastMouseY);
 		}
 
 		lastMouseX = e.clientX;
@@ -147,10 +143,7 @@
 		const petScreenX = rect.left + x;
 		const petScreenY = rect.top + y;
 
-		return Math.hypot(
-			mouseX - petScreenX,
-			mouseY - petScreenY
-		) < petSize * 3;
+		return Math.hypot(mouseX - petScreenX, mouseY - petScreenY) < petSize * 3;
 	}
 
 	function pickTarget(): void {
@@ -186,8 +179,7 @@
 	function setTarget(tx: number, ty: number, arrivalOverride: number = -1) {
 		targetX = tx;
 		targetY = ty;
-		currentArrivalThreshold =
-			arrivalOverride >= 0 ? arrivalOverride : DEFAULT_ARRIVAL_THRESHOLD;
+		currentArrivalThreshold = arrivalOverride >= 0 ? arrivalOverride : DEFAULT_ARRIVAL_THRESHOLD;
 		if (Math.hypot(currentDirection.x, currentDirection.y) < 0.001) {
 			const dx = targetX - x;
 			const dy = targetY - y;
@@ -210,19 +202,17 @@
 			} else {
 				idleElapsed += dt;
 
-				const effectiveIdle =
-					IDLE_DURATION *
-					(firstActivation ? 0 : IDLE_LOOPS);
+				const effectiveIdle = IDLE_DURATION * (firstActivation ? 0 : IDLE_LOOPS);
 
-					if (idleElapsed >= effectiveIdle) {
-						idleElapsed = 0;
-						firstActivation = false;
-						if (!isMouseNear()) {
-							pickTarget();
-						}
+				if (idleElapsed >= effectiveIdle) {
+					idleElapsed = 0;
+					firstActivation = false;
+					if (!isMouseNear()) {
+						pickTarget();
 					}
 				}
 			}
+		}
 
 		if (state === 'walk') {
 			const dx = targetX - x;
@@ -300,7 +290,6 @@
 		}
 	}
 
-
 	function updateContainerHeight(): void {
 		if (!container || !isActive) return;
 		container.style.height = `${document.body.scrollHeight}px`;
@@ -361,8 +350,7 @@
 			if (container && featureImage) {
 				spawnFromImage(SPAWN_X, SPAWN_Y);
 
-				const revealEl =
-					featureImage.closest('.reveal') as HTMLElement | null;
+				const revealEl = featureImage.closest('.reveal') as HTMLElement | null;
 
 				if (revealEl) {
 					trackRevealCompletion(revealEl);
@@ -375,16 +363,16 @@
 					});
 				}
 
-					const observer = new IntersectionObserver(
-						([entry]) => {
-							isFullyVisible = entry.intersectionRatio >= ACTIVATION_VISIBILITY_RATIO;
+				const observer = new IntersectionObserver(
+					([entry]) => {
+						isFullyVisible = entry.intersectionRatio >= ACTIVATION_VISIBILITY_RATIO;
 
-							if (isFullyVisible) {
-								activatePet();
-							}
-						},
-						{ threshold: [ACTIVATION_VISIBILITY_RATIO] }
-					);
+						if (isFullyVisible) {
+							activatePet();
+						}
+					},
+					{ threshold: [ACTIVATION_VISIBILITY_RATIO] }
+				);
 
 				observer.observe(featureImage);
 				resizeObserver = new ResizeObserver(() => {
@@ -427,14 +415,11 @@
 	});
 </script>
 
-<div
-	bind:this={container}
-	class="pointer-events-none absolute top-0 left-0 z-50 w-full"
->
+<div bind:this={container} class="pointer-events-none absolute top-0 left-0 z-50 w-full">
 	<img
 		src={state === 'petting' ? petGif : state === 'idle' ? idleGif : walkGif}
 		alt="Virtual pet"
-		class="pointer-events-auto absolute select-none cursor-pointer"
+		class="pointer-events-auto absolute cursor-pointer select-none"
 		on:click={handleClick}
 		style="
 			width: {petSize}px;

@@ -55,12 +55,11 @@
 		z-index: 1;
 	}
 
-  .bg-pattern {
-      background-image: url('/src/lib/assets/background.png');
-      background-repeat: repeat-y;
-      background-position: center top;
-      background-size: 2040px 1608px;
-      min-height: 100vh;
-  }
-
+	.bg-pattern {
+		background-image: url('/src/lib/assets/background.png');
+		background-repeat: repeat-y;
+		background-position: center top;
+		background-size: 2040px 1608px;
+		min-height: 100vh;
+	}
 </style>

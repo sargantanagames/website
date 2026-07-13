@@ -55,8 +55,8 @@
 				src={imagePetStates}
 				alt="Pet animations"
 				class="mx-auto block w-full max-w-full object-contain"
-        loading="lazy"
-        decoding="async"
+				loading="lazy"
+				decoding="async"
 			/>
 
 			<Pet {featureImage} />
@@ -81,8 +81,8 @@
 			src={imageRooms}
 			alt="Rooms"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
-      loading="lazy"
-      decoding="async"
+			loading="lazy"
+			decoding="async"
 		/>
 
 		<p>
@@ -110,8 +110,8 @@
 			src={imageEggEvolutions}
 			alt="Eggs and stage animations"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
-      loading="lazy"
-      decoding="async"
+			loading="lazy"
+			decoding="async"
 		/>
 
 		<p>
@@ -139,8 +139,8 @@
 			src={imageBattle}
 			alt="Combat menus"
 			class="reveal from-right mx-auto w-full max-w-full object-contain"
-      loading="lazy"
-      decoding="async"
+			loading="lazy"
+			decoding="async"
 		/>
 	</div>
 </section>
